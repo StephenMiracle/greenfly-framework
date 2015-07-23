@@ -1,0 +1,25 @@
+{
+    "name": "greenfly/framework",
+    "description": "Rapid CMS made for creative professionals",
+    "authors": [
+        {
+            "name": "Stephen Miracle",
+            "email": "sjumwh@gmail.com"
+        }
+    ],
+    "require": {
+        "phly/phlyty": "dev-master",
+        "twig/twig": "~1.0",
+        "illuminate/database": "~5.1"
+    },
+    "autoload": {
+        "psr-0": {
+            "Greenfly": "src/"
+        }
+    },
+    "repositories": [
+    {
+        "type": "composer",
+        "url": "https://packages.cartalyst.com"
+    }]
+}
