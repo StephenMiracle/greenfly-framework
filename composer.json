@@ -16,10 +16,5 @@
         "psr-0": {
             "Greenfly": "src/"
         }
-    },
-    "repositories": [
-    {
-        "type": "composer",
-        "url": "https://packages.cartalyst.com"
-    }]
+    }
 }
