@@ -12,8 +12,8 @@ use Exception;
 
 class Template {
 
-    const TWIG_TEMPLATE_DIRECTORY = '../../../../../themes/';
-    const TWIG_CACHE_DIRECTORY = '../../../../../themes/cache/';
+    const THEME_DIRECTORY_KEY = 'theme_directory';
+    const CACHE_DIRECTORY_KEY = 'theme_cache_directory';
     const RENDER_CONFIG_VIEW = 'view';
     const RENDER_CONFIG_PARAMS = 'params';
 
@@ -25,9 +25,9 @@ class Template {
     {
         \Twig_Autoloader::register();
 
-        $loader = new \Twig_Loader_Filesystem(SELF::TWIG_TEMPLATE_DIRECTORY);
+        $loader = new \Twig_Loader_Filesystem($config[self::THEME_DIRECTORY_KEY]);
         $this->twig = new \Twig_Environment($loader, array(
-            'cache' => SELF::TWIG_CACHE_DIRECTORY,
+            'cache' => $config[SELF::CACHE_DIRECTORY_KEY],
             'debug' => true
         ));
         $this->twig->addExtension(new \Twig_Extension_Debug());

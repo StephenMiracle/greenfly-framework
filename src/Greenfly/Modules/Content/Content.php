@@ -16,7 +16,6 @@ use Greenfly\Modules\Content\Models\Version as VersionModel;
 use Greenfly\Modules\Content\Models\Taxonomy as TaxonomyModel;
 use Greenfly\Modules\Content\Models\Tag as TagModel;
 use Greenfly\Modules\Model;
-use Greenfly\Template;
 
 class Content extends Module
 {
@@ -50,8 +49,7 @@ class Content extends Module
     public static function single (array $config)
     {
         $class = new Static();
-        $template = new Template();
-        echo $template->render(['view' => $config['render']['view'], 'params' => array_merge($config['render']['data'], $class->getSingleVersion($config))]);
+        echo $class->template->render(['view' => $config['render']['view'], 'params' => array_merge($config['render']['data'], $class->getSingleVersion($config))]);
     }
 
     public function getSingleVersion($config)

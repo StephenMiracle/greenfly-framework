@@ -3,6 +3,7 @@
 namespace Greenfly;
 use Phlyty\App as RouteSystem;
 use Greenfly\Database;
+use Greenfly\Template;
 /**
  * Application container
  *
@@ -15,10 +16,12 @@ class App
     const SITE_CONFIG_KEY = 'site';
 
     public $route;
+    protected $template;
 
     public function __construct($config)
     {
         Database::connect($config[self::SITE_CONFIG_KEY][self::DATABASE_CONFIG_KEY]);
+        $this->template = new Template();
         $this->route = new RouteSystem();
     }
 
