@@ -1,11 +1,11 @@
 {
     "name": "greenfly/framework",
     "description": "Rapid CMS made for creative professionals",
-    "version" : "0.1.1",
+    "version" : "0.1.2",
     "authors": [
         {
             "name": "Stephen Miracle",
-            "email": "sjumwh@gmail.com"
+            "email": "stephen@thatmiracle.com"
         }
     ],
     "require": {

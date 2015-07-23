@@ -12,8 +12,8 @@ use Exception;
 
 class Template {
 
-    const TWIG_TEMPLATE_DIRECTORY = '../twig/templates/';
-    const TWIG_CACHE_DIRECTORY = '../twig/cache/';
+    const TWIG_TEMPLATE_DIRECTORY = '../../../../../themes/';
+    const TWIG_CACHE_DIRECTORY = '../../../../../themes/cache/';
     const RENDER_CONFIG_VIEW = 'view';
     const RENDER_CONFIG_PARAMS = 'params';
 
