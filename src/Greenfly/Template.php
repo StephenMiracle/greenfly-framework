@@ -33,18 +33,9 @@ class Template {
         $this->twig->addExtension(new \Twig_Extension_Debug());
     }
 
-    public function render(array $config)
+    public function render($view, array $params = [])
     {
-
-        if (!isset($config[SELF::RENDER_CONFIG_VIEW])) {
-            throw new Exception('Missing necessary config key - ');
-        }
-
-        if (!isset($config[SELF::RENDER_CONFIG_PARAMS])) {
-            $config[SELF::RENDER_CONFIG_PARAMS] = [];
-        }
-
-        return $this->twig->render($config[SELF::RENDER_CONFIG_VIEW], $config[SELF::RENDER_CONFIG_PARAMS]);
+        return $this->twig->render($view, $params);
     }
 
 }

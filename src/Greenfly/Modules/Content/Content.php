@@ -24,9 +24,11 @@ class Content extends Module
     const CONFIG_MODEL_KEY = 'model';
     const CONFIG_METHOD_KEY = 'method';
     const CONFIG_PARAMETERS_KEY = 'params';
+    const SECTIONS_KEY = 'sections';
     const RENDER_KEY = 'render';
     const DATA_KEY = 'data';
     const VIEW_KEY = 'view';
+    const VERSION_KEY = 'version';
 
     protected $contentModel;
     protected $typeModel;
@@ -49,31 +51,67 @@ class Content extends Module
     }
 
 
+    public static function sections (array $config)
+    {
+        $class = new Static();
+
+        foreach ($config[self::SECTIONS_KEY] as $section => $content) {
+            $class->runSection($content, $config[self::TEMPLATE_KEY], $config[self::PARAMS_KEY]);
+        }
+
+    }
+
+    protected function runSection ($content, $template, $additionalVars = [])
+    {
+
+        if (is_string($content)) {
+            echo $template->render($content, $additionalVars);
+        } elseif (isset($content[self::CONFIG_CALLBACK_KEY])) {
+            $content[self::CONFIG_KEY][self::TEMPLATE_KEY] = $template;
+            $content[self::CONFIG_KEY][self::PARAMS_KEY] = array_merge($content[self::CONFIG_KEY][self::PARAMS_KEY], $additionalVars);
+            call_user_func($content[self::CONFIG_CALLBACK_KEY], $content[self::CONFIG_KEY]);
+        }
+
+    }
+
+    public static function contentByTags(array $config)
+    {
+        $class = new Static();
+
+        $vars = [];
+
+        foreach ($config['params']['tags'] as $tagSelector) {
+            $tag = TagModel::where('name = "' . $tagSelector['name'] . '" taxonomy_type = "' . $tagSelector['taxonomy_type'] . '"')->firstOrFail()->get()->toArray();
+            $vars['tag'] = $tag->toArray();
+            $vars['tag']['content'] = $tag->contents->toArray();
+        }
+
+        die(var_dump($vars));
+    }
+
     public static function single (array $config)
     {
         $class = new Static();
         $params = $class->connectArrays($config[self::PARAMS_KEY], [$config[self::RENDER_KEY][self::DATA_KEY], $class->getSingleVersion($config)]);
-        echo $config[self::TEMPLATE_KEY]->render([self::VIEW_KEY => $config[self::RENDER_KEY][self::VIEW_KEY], self::PARAMS_KEY => $params]);
+        echo $config[self::TEMPLATE_KEY]->render($config[self::RENDER_KEY][self::VIEW_KEY], $params);
     }
 
     public function getSingleVersion($config)
     {
 
-        $contentParams = '';
         $versionParams = '';
+        $i = 0;
 
-        foreach ($config[static::CONFIG_PARAMETERS_KEY]['content'] as $col => $val) {
-            $contentParams = ' AND ' . $col . ' = "' . $val . '"';
+
+        foreach ($config[static::CONFIG_PARAMETERS_KEY][static::VERSION_KEY] as $col => $val) {
+            $versionParams .= $i == 0 ?  $col . ' = "' . $val . '"' : ' AND ' . $col . ' = "' . $val . '"';
+            $i++;
         }
 
-        foreach ($config[static::CONFIG_PARAMETERS_KEY]['version'] as $col => $val) {
-            $versionParams = ' AND ' . $col . ' = "' . $val . '"';
-        }
 
-        $contentPiece = ContentModel::whereRaw('name = "' . $config[static::CONFIG_PARAMETERS_KEY]['name'] . '" ' . $contentParams)->firstOrFail()->toArray();
-        $version = VersionModel::whereRaw('content_id = ' . $contentPiece['id'] . $versionParams)->firstOrFail()->toArray();
+        $version = VersionModel::whereRaw($versionParams)->first()->toArray();
         $version['data'] = json_decode($version['data'], 1);
-        return ['content' => $contentPiece, 'version' => $version];
+        return ['version' => $version];
     }
 
 

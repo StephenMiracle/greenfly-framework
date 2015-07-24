@@ -17,4 +17,9 @@ class Tag extends Model
     {
         return $this->belongsTo('Greenfly\Modules\Content\Models\Taxonomy');
     }
+
+    public function contents()
+    {
+        return $this->belongsToMany('Greenfly\Modules\Content\Models\Contents');
+    }
 }

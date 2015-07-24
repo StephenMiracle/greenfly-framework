@@ -6,7 +6,7 @@ use Greenfly\Modules\Model;
 
 class Content extends Model
 {
-    protected $fillable = ['name', 'type_id'];
+    protected $fillable = ['name', 'type_name'];
 
     public function versions()
     {
@@ -21,6 +21,11 @@ class Content extends Model
     public function taxonomies()
     {
         return $this->hasMany('Greenfly\Modules\Content\Models\Taxonomy');
+    }
+
+    public function tags()
+    {
+        return $this->hasMany('Greenfly\Modules\Content\Models\Tags');
     }
 
 }

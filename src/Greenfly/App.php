@@ -98,6 +98,11 @@ class App
 
         if (isset($content[self::CONFIG_CALLBACK_KEY])) {
 
+
+            if (!isset($content[self::CONFIG_KEY][self::PARAMS_KEY])) {
+                $content[self::CONFIG_KEY][self::PARAMS_KEY] = [];
+            }
+
              $this->connectArrays($content[self::CONFIG_KEY][self::PARAMS_KEY], [$this->siteVariables, $httpMethods, $params]);
             $content[self::CONFIG_KEY][self::TEMPLATE_KEY] = $this->template;
 
@@ -107,15 +112,9 @@ class App
 
             $params = [];
 
-            $this->connectArrays($params, [$this->siteVariables, $httpMethods, $params]);
+            $this->connectArrays($params, [$this->siteVariables, $httpMethods]);
 
-            $content = [
-                Template::RENDER_CONFIG_VIEW => $content,
-                Template::RENDER_CONFIG_PARAMS => $params
-            ];
-
-
-            echo $this->template->render($content);//
+            echo $this->template->render($content, $params);//
         }
 
     }
