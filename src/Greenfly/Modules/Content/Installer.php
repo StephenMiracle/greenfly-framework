@@ -5,7 +5,7 @@ namespace Greenfly\Modules\Content;
 use \Illuminate\Database\Capsule\Manager as Capsule;
 
 
-class Install {
+class Installer {
 
 
     public static function start ()
