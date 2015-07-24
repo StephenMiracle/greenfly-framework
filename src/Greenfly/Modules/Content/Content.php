@@ -24,6 +24,9 @@ class Content extends Module
     const CONFIG_MODEL_KEY = 'model';
     const CONFIG_METHOD_KEY = 'method';
     const CONFIG_PARAMETERS_KEY = 'params';
+    const RENDER_KEY = 'render';
+    const DATA_KEY = 'data';
+    const VIEW_KEY = 'view';
 
     protected $contentModel;
     protected $typeModel;
@@ -49,7 +52,8 @@ class Content extends Module
     public static function single (array $config)
     {
         $class = new Static();
-        echo $class->template->render(['view' => $config['render']['view'], 'params' => array_merge($config['render']['data'], $class->getSingleVersion($config))]);
+        $params = $class->connectArrays($config[self::PARAMS_KEY], [$config[self::RENDER_KEY][self::DATA_KEY], $class->getSingleVersion($config)]);
+        echo $config[self::TEMPLATE_KEY]->render([self::VIEW_KEY => $config[self::RENDER_KEY][self::VIEW_KEY], self::PARAMS_KEY => $params]);
     }
 
     public function getSingleVersion($config)
@@ -59,6 +63,7 @@ class Content extends Module
         $versionParams = '';
 
         foreach ($config[static::CONFIG_PARAMETERS_KEY]['content'] as $col => $val) {
+            $contentParams = ' AND ' . $col . ' = "' . $val . '"';
         }
 
         foreach ($config[static::CONFIG_PARAMETERS_KEY]['version'] as $col => $val) {

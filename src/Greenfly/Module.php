@@ -9,6 +9,7 @@
 namespace Greenfly;
 
 use Zend\Mvc\Controller;
+use Greenfly\App;
 
 class Module extends App
 {

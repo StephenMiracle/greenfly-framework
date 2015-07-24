@@ -14,15 +14,26 @@ class App
 {
     const DATABASE_CONFIG_KEY = 'database';
     const SITE_CONFIG_KEY = 'site';
+    const CONFIG_CALLBACK_KEY = 'callback';
+    const DOCUMENT_GET_KEY = 'get';
+    const DOCUMENT_POST_KEY = 'post';
+    const DOCUMENT_PUT_KEY = 'put';
+    const DOCUMENT_DELETE_KEY = 'delete';
+    const CONFIG_KEY = 'config';
+    const PARAMS_KEY = 'params';
+    const VARIABLES_KEY = 'variables';
+    const TEMPLATE_KEY = 'template';
 
     public $route;
+    public $siteVariables;
     protected $template;
 
     public function __construct($config)
     {
         Database::connect($config[self::SITE_CONFIG_KEY][self::DATABASE_CONFIG_KEY]);
-        $this->template = new Template();
+        $this->template = new Template($config[self::SITE_CONFIG_KEY]);
         $this->route = new RouteSystem();
+        $this->siteVariables = $config[self::SITE_CONFIG_KEY][self::VARIABLES_KEY];
     }
 
     public function runDocument ($jsonDocument)
@@ -39,69 +50,91 @@ class App
 
     protected function parseDocument($document)
     {
-        if (isset($document['get'])) {
+        if (isset($document[self::DOCUMENT_GET_KEY])) {
 
-            foreach ($document['get'] as $route => $content) {
-                $this->getRoute($route, $content);
+            foreach ($document[self::DOCUMENT_GET_KEY] as $route => $content) {
+                 $this->getRoute($route, $content);
             }
 
         }
 
-        if (isset($document['post'])) {
+        if (isset($document[self::DOCUMENT_POST_KEY])) {
 
-            foreach ($document['post'] as $route => $content) {
-                $this->postRoute($route, $content);
+            foreach ($document[self::DOCUMENT_POST_KEY] as $route => $content) {
+                return $this->postRoute($route, $content);
             }
 
         }
 
-        if (isset($document['put'])) {
+        if (isset($document[self::DOCUMENT_PUT_KEY])) {
 
-            foreach ($document['put'] as $route => $content) {
-                $this->putRoute($route, $content);
+            foreach ($document[self::DOCUMENT_PUT_KEY] as $route => $content) {
+                return $this->putRoute($route, $content);
             }
 
         }
 
-        if (isset($document['delete'])) {
+        if (isset($document[self::DOCUMENT_DELETE_KEY])) {
 
-            foreach ($document['delete'] as $route => $content) {
+            foreach ($document[self::DOCUMENT_DELETE_KEY] as $route => $content) {
                 $this->deleteRoute($route, $content);
             }
 
         }
     }
 
+    protected function connectArrays(array &$array, array $attachments)
+    {
+        foreach ($attachments as $key => $value) {
+           $array = array_merge($array, $value);
+        }
+
+        return $array;
+    }
+
+
+    private function runRoute($content, array $httpMethods, array $params)
+    {
+
+        if (isset($content[self::CONFIG_CALLBACK_KEY])) {
+
+             $this->connectArrays($content[self::CONFIG_KEY][self::PARAMS_KEY], [$this->siteVariables, $httpMethods, $params]);
+            $content[self::CONFIG_KEY][self::TEMPLATE_KEY] = $this->template;
+
+            return call_user_func($content[self::CONFIG_CALLBACK_KEY], $content[self::CONFIG_KEY]);
+
+        } elseif(is_string($content)) {
+
+            $params = [];
+
+            $this->connectArrays($params, [$this->siteVariables, $httpMethods, $params]);
+
+            $content = [
+                Template::RENDER_CONFIG_VIEW => $content,
+                Template::RENDER_CONFIG_PARAMS => $params
+            ];
+
+
+            echo $this->template->render($content);//
+        }
+
+    }
 
     public function getRoute ($route, $content)
     {
 
         $this->route->get($route, function ($router) use ($content) {
-
-            if (is_array($content)) {
-
-                foreach ($router->request()->getQuery()->toArray() as $key => $queryItem) {
-                    $content['config']['params'][$key] = $queryItem;
-                }
-
-                foreach ($router->params()->getParams() as $key => $urlParam) {
-                    $content['config']['params'][$key] = $urlParam;
-                }
-
-                if (!isset($content['config'])) {
-                    $content['config'] = [];
-                }
-
-                return call_user_func($content['callback'], $content['config']);
-
-            }
-
+            return $this->runRoute($content, $router->request()->getQuery()->toArray(), $router->params()->getParams());
         });
 
     }
 
     public function postRoute ($route, $content)
     {
+
+        $this->route->post($route, function ($router) use ($content) {
+            return $this->runRoute($content, $router->request()->getPost()->toArray(), $router->params()->getParams());
+        });
 
     }
 
