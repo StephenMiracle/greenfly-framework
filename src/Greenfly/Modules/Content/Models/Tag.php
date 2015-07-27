@@ -20,6 +20,6 @@ class Tag extends Model
 
     public function contents()
     {
-        return $this->belongsToMany('Greenfly\Modules\Content\Models\Contents');
+        return $this->belongsToMany('Greenfly\Modules\Content\Models\Content');
     }
 }

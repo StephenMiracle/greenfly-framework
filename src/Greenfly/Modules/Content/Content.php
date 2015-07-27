@@ -77,17 +77,26 @@ class Content extends Module
     public static function contentByTags(array $config)
     {
         $class = new Static();
+        $params = $class->connectArrays($config[self::PARAMS_KEY], [$config[self::RENDER_KEY][self::DATA_KEY], $class->getContentByTags($config)]);
+        echo $config[self::TEMPLATE_KEY]->render($config[self::RENDER_KEY][self::VIEW_KEY], $params);
+    }
 
+    public function getContentByTags($config)
+    {
         $vars = [];
 
         foreach ($config['params']['tags'] as $tagSelector) {
-            $tag = TagModel::where('name = "' . $tagSelector['name'] . '" taxonomy_type = "' . $tagSelector['taxonomy_type'] . '"')->firstOrFail()->get()->toArray();
+            $tag = TagModel::whereRaw('name = "' . $tagSelector['name'] . '" AND taxonomy_name = "' . $tagSelector['taxonomy_name'] . '"')->first();
+            $content = $tag->contents;
             $vars['tag'] = $tag->toArray();
-            $vars['tag']['content'] = $tag->contents->toArray();
+            VersionModel::AttachlatestActive($vars['tag']['contents']);
         }
 
-        die(var_dump($vars));
+        return $vars;
+
     }
+
+
 
     public static function single (array $config)
     {
@@ -115,11 +124,6 @@ class Content extends Module
     }
 
 
-
-    protected function jsonToArray($json)
-    {
-        return json_decode($json);
-    }
 
     public function storeType(array $typeContent)
     {

@@ -18,4 +18,21 @@ class Version extends Model
     {
         return $this->belongsToMany('Greenfly\Modules\Content\Models\Tag');
     }
+
+    public static function attachLatestActive(&$contents)
+    {
+        $class = new Static();
+
+        if (is_array($contents)) {
+
+            foreach ($contents as $key => $content) {
+                $contents[$key]['version'] = $class->whereRaw('content_name = "' . $content['name'] . '" AND status = 1')->orderBy('updated_at')->first()->toArray();
+            }
+
+        }
+
+
+        return $contents;
+
+    }
 }

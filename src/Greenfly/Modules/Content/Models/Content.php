@@ -28,4 +28,5 @@ class Content extends Model
         return $this->hasMany('Greenfly\Modules\Content\Models\Tags');
     }
 
+
 }
