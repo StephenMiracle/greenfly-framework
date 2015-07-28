@@ -112,15 +112,31 @@ class Content extends Module
         $i = 0;
 
 
-        foreach ($config[static::CONFIG_PARAMETERS_KEY][static::VERSION_KEY] as $col => $val) {
-            $versionParams .= $i == 0 ?  $col . ' = "' . $val . '"' : ' AND ' . $col . ' = "' . $val . '"';
-            $i++;
+
+        if (!is_string($config[static::CONFIG_PARAMETERS_KEY][static::VERSION_KEY])) {
+
+            foreach ($config[static::CONFIG_PARAMETERS_KEY][static::VERSION_KEY] as $col => $val) {
+                $versionParams .= $i == 0 ?  $col . ' = "' . $val . '"' : ' AND ' . $col . ' = "' . $val . '"';
+                $i++;
+            }
+
         }
 
 
-        $version = VersionModel::whereRaw($versionParams)->first()->toArray();
+        $version = VersionModel::whereRaw($versionParams)->first();
+        $content = $version->content;
+        $version = $version->toArray();
         $version['data'] = json_decode($version['data'], 1);
         return ['version' => $version];
+    }
+
+    public static function contentItem($config)
+    {
+        $version = VersionModel::where('content_name', $config['params']['content_name'])->first();
+        $content = $version->content;
+        $config['params']['version'] = $version->toArray();
+        $config['params'][self::VERSION_KEY][self::DATA_KEY] = json_decode($config['params'][self::VERSION_KEY][self::DATA_KEY], 1);
+        echo $config[self::TEMPLATE_KEY]->render($config[self::RENDER_KEY][self::VIEW_KEY],$config['params']);
     }
 
 

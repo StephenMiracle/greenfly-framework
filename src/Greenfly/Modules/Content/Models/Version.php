@@ -6,12 +6,14 @@ use Greenfly\Modules\Model;
 
 class Version extends Model
 {
-    protected $fillable = ['data', 'content_id', 'name', 'published_at', 'expired_at'];
+    protected $fillable = ['data', 'content_name', 'name', 'published_at', 'expired_at'];
 
 
     public function content()
     {
-        return $this->belongsTo('Greenfly\Modules\Content\Models\Content');
+        $content = $this->belongsTo('Greenfly\Modules\Content\Models\Content', 'content_name', 'name');
+
+        return $content;
     }
 
     public function tags()
@@ -26,7 +28,9 @@ class Version extends Model
         if (is_array($contents)) {
 
             foreach ($contents as $key => $content) {
-                $contents[$key]['version'] = $class->whereRaw('content_name = "' . $content['name'] . '" AND status = 1')->orderBy('updated_at')->first()->toArray();
+                $version = $class->whereRaw('content_name = "' . $content['name'] . '" AND status = 1')->orderBy('updated_at')->first()->toArray();
+                $version['data'] = json_decode($version['data'], true);
+                $contents[$key]['version'] = $version;
             }
 
         }
