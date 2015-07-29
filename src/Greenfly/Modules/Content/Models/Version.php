@@ -18,7 +18,7 @@ class Version extends Model
 
     public function tags()
     {
-        return $this->belongsToMany('Greenfly\Modules\Content\Models\Tag');
+        return $this->belongsToMany('Greenfly\Modules\Content\Models\Tag', 'name', 'name');
     }
 
     public static function attachLatestActive(&$contents)
@@ -28,7 +28,14 @@ class Version extends Model
         if (is_array($contents)) {
 
             foreach ($contents as $key => $content) {
-                $version = $class->whereRaw('content_name = "' . $content['name'] . '" AND status = 1')->orderBy('updated_at')->first()->toArray();
+                $version = $class->where(['content_name' => $content['name'], 'status' => 1])->orderBy('updated_at')->first();
+
+                if ($version) {
+                    $version = $version->toArray();
+                } else {
+                    throw new \Exception('missing or incorrect row for ' . $content['name']);
+                }
+
                 $version['data'] = json_decode($version['data'], true);
                 $contents[$key]['version'] = $version;
             }

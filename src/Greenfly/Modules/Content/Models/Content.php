@@ -10,7 +10,7 @@ class Content extends Model
 
     public function versions()
     {
-        return $this->hasMany('Greenfly\Modules\Content\Models\Version');
+        return $this->hasMany('Greenfly\Modules\Content\Models\Version', 'name', 'name');
     }
 
     public function type()
@@ -25,7 +25,7 @@ class Content extends Model
 
     public function tags()
     {
-        return $this->hasMany('Greenfly\Modules\Content\Models\Tags');
+        return $this->hasMany('Greenfly\Modules\Content\Models\Tags', 'name', 'name');
     }
 
 

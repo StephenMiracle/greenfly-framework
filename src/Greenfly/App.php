@@ -4,6 +4,7 @@ namespace Greenfly;
 use Phlyty\App as RouteSystem;
 use Greenfly\Database;
 use Greenfly\Template;
+use Exception;
 /**
  * Application container
  *
@@ -23,6 +24,8 @@ class App
     const PARAMS_KEY = 'params';
     const VARIABLES_KEY = 'variables';
     const TEMPLATE_KEY = 'template';
+    const RENDER_WITH_DATA_KEY = 'renderData'; // Use instead of Callback if you just want to dump known data attributes into render file
+    const VIEW_KEY = 'view';
 
     public $route;
     public $siteVariables;
@@ -40,8 +43,11 @@ class App
     {
         $document = json_decode($jsonDocument, 1);
 
+
         if ($document) {
             $this->parseDocument($document);
+        } else {
+            throw new \Exception('Either missing JSON file or JSON file has errors');
         }
 
         $this->route->run();
@@ -85,9 +91,11 @@ class App
 
     protected function connectArrays(array &$array, array $attachments)
     {
+
         foreach ($attachments as $key => $value) {
            $array = array_merge($array, $value);
         }
+
 
         return $array;
     }
@@ -113,10 +121,20 @@ class App
             $params = [];
 
             $this->connectArrays($params, [$this->siteVariables, $httpMethods]);
+            echo $this->template->render($content, $params);
 
-            echo $this->template->render($content, $params);//
+
+        } elseif (isset($content[self::RENDER_WITH_DATA_KEY])) {
+            $this->renderWithData($content, $this->template, [$this->siteVariables, $httpMethods, $content[self::RENDER_WITH_DATA_KEY]]);
         }
 
+    }
+
+    protected function renderWithData($content, $template, $additionalVars = [])
+    {
+        $params = [];
+        $this->connectArrays($params, $additionalVars);
+        echo $template->render($content[static::VIEW_KEY], $params);
     }
 
     public function getRoute ($route, $content)

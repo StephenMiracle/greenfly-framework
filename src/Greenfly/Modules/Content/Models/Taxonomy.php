@@ -10,11 +10,11 @@ class Taxonomy extends Model
 
     public function content()
     {
-        return $this->hasMany('Greenfly\Modules\Content\Models\Type');
+        return $this->hasMany('Greenfly\Modules\Content\Models\Type', 'name', 'name');
     }
 
     public function tags()
     {
-        return $this->hasMany('Greenfly\Modules\Content\Models\Tag');
+        return $this->hasMany('Greenfly\Modules\Content\Models\Tag', 'name', 'name');
     }
 }

@@ -70,6 +70,8 @@ class Content extends Module
             $content[self::CONFIG_KEY][self::TEMPLATE_KEY] = $template;
             $content[self::CONFIG_KEY][self::PARAMS_KEY] = array_merge($content[self::CONFIG_KEY][self::PARAMS_KEY], $additionalVars);
             call_user_func($content[self::CONFIG_CALLBACK_KEY], $content[self::CONFIG_KEY]);
+        } elseif (isset($content[static::RENDER_WITH_DATA_KEY])) {
+            $this->renderWithData($content, $template, [$additionalVars, $content[self::RENDER_WITH_DATA_KEY]]);
         }
 
     }
@@ -86,7 +88,7 @@ class Content extends Module
         $vars = [];
 
         foreach ($config['params']['tags'] as $tagSelector) {
-            $tag = TagModel::whereRaw('name = "' . $tagSelector['name'] . '" AND taxonomy_name = "' . $tagSelector['taxonomy_name'] . '"')->first();
+            $tag = TagModel::where('name', '=',$tagSelector['name'])->first();
             $content = $tag->contents;
             $vars['tag'] = $tag->toArray();
             VersionModel::AttachlatestActive($vars['tag']['contents']);
