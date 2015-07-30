@@ -32,8 +32,12 @@ class Tag extends Model
             $contents->where('name', '!=', $this->currentContentName);
         }
         $contents->orderBy('published_date', 'DESC');
-        $contents->take(empty($take) ? 15 : $take);
-        $contents->offset(empty($offset) ? 0 : $offset);
+
+        if (!empty($take)) {
+            $contents->take($take);
+            $contents->offset(empty($offset) ? 0 : $offset);
+        }
+
 
         return $contents;
     }
@@ -60,8 +64,12 @@ class Tag extends Model
         }
 
         $contents->orderBy('published_date', 'DESC');
-        $contents->take(empty($take) ? 15 : $take);
-        $contents->offset(empty($offset) ? 0 : $offset);
+
+        if (!empty($take)) {
+            $contents->take($take);
+            $contents->offset(empty($offset) ? 0 : $offset);
+        }
+
 
         return $contents;
     }

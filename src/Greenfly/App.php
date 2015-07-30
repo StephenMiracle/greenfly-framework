@@ -26,6 +26,7 @@ class App
     const TEMPLATE_KEY = 'template';
     const RENDER_WITH_DATA_KEY = 'renderData'; // Use instead of Callback if you just want to dump known data attributes into render file
     const VIEW_KEY = 'view';
+    const ERROR_404_KEY = '404';
 
     public $route;
     public $siteVariables;
@@ -44,6 +45,7 @@ class App
         $document = json_decode($jsonDocument, 1);
 
 
+
         if ($document) {
             $this->parseDocument($document);
         } else {
@@ -60,6 +62,7 @@ class App
 
             foreach ($document[self::DOCUMENT_GET_KEY] as $route => $content) {
                  $this->getRoute($route, $content);
+
             }
 
         }
@@ -67,15 +70,17 @@ class App
         if (isset($document[self::DOCUMENT_POST_KEY])) {
 
             foreach ($document[self::DOCUMENT_POST_KEY] as $route => $content) {
-                return $this->postRoute($route, $content);
+                $this->postRoute($route, $content);
             }
+
+
 
         }
 
         if (isset($document[self::DOCUMENT_PUT_KEY])) {
 
             foreach ($document[self::DOCUMENT_PUT_KEY] as $route => $content) {
-                return $this->putRoute($route, $content);
+                $this->putRoute($route, $content);
             }
 
         }
@@ -87,6 +92,13 @@ class App
             }
 
         }
+
+
+        $this->route->events()->attach('404', function ($e) use($document) {
+            echo $this->template->render($document[static::ERROR_404_KEY], $this->siteVariables);
+        });
+
+
     }
 
     protected function connectArrays(array &$array, array $attachments)
