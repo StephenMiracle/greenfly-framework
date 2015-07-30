@@ -29,6 +29,13 @@ class Content extends Module
     const DATA_KEY = 'data';
     const VIEW_KEY = 'view';
     const VERSION_KEY = 'version';
+    const SINGLE_TAG_KEY = 'tag';
+    const PLURAL_TAG_KEY = 'tags';
+    const TYPE_ID_KEY = 'type_id';
+    const NAME_KEY = 'name';
+    const CONTENTS_KEY = 'contents';
+    const CONTENT_NAME_KEY = 'content_name';
+    const TYPE_NAME_KEY = 'type_name';
 
     protected $contentModel;
     protected $typeModel;
@@ -47,7 +54,7 @@ class Content extends Module
 
     public static function index()
     {
-        return ContentModel::where('type_id', '=', 1)->with('versions')->take(20)->get()->toArray();
+        return ContentModel::where(static::TYPE_ID_KEY, '=', 1)->with(static::VERSION_KEY)->take(20)->get()->toArray();
     }
 
 
@@ -55,8 +62,8 @@ class Content extends Module
     {
         $class = new Static();
 
-        foreach ($config[self::SECTIONS_KEY] as $section => $content) {
-            $class->runSection($content, $config[self::TEMPLATE_KEY], $config[self::PARAMS_KEY]);
+        foreach ($config[static::SECTIONS_KEY] as $section => $content) {
+            $class->runSection($content, $config[static::TEMPLATE_KEY], $config[static::PARAMS_KEY]);
         }
 
     }
@@ -66,32 +73,42 @@ class Content extends Module
 
         if (is_string($content)) {
             echo $template->render($content, $additionalVars);
-        } elseif (isset($content[self::CONFIG_CALLBACK_KEY])) {
-            $content[self::CONFIG_KEY][self::TEMPLATE_KEY] = $template;
-            $content[self::CONFIG_KEY][self::PARAMS_KEY] = array_merge($content[self::CONFIG_KEY][self::PARAMS_KEY], $additionalVars);
-            call_user_func($content[self::CONFIG_CALLBACK_KEY], $content[self::CONFIG_KEY]);
+        } elseif (isset($content[static::CONFIG_CALLBACK_KEY])) {
+            $content[static::CONFIG_KEY][static::TEMPLATE_KEY] = $template;
+            $content[static::CONFIG_KEY][static::PARAMS_KEY] = array_merge($content[static::CONFIG_KEY][static::PARAMS_KEY], $additionalVars);
+            call_user_func($content[static::CONFIG_CALLBACK_KEY], $content[static::CONFIG_KEY]);
         } elseif (isset($content[static::RENDER_WITH_DATA_KEY])) {
-            $this->renderWithData($content, $template, [$additionalVars, $content[self::RENDER_WITH_DATA_KEY]]);
+            $this->renderWithData($content, $template, [$additionalVars, $content[static::RENDER_WITH_DATA_KEY]]);
         }
 
     }
 
+    /**
+     * get content based on tags and render through template view
+     * @param array $config
+     */
     public static function contentByTags(array $config)
     {
         $class = new Static();
-        $params = $class->connectArrays($config[self::PARAMS_KEY], [$config[self::RENDER_KEY][self::DATA_KEY], $class->getContentByTags($config)]);
-        echo $config[self::TEMPLATE_KEY]->render($config[self::RENDER_KEY][self::VIEW_KEY], $params);
+        $params = $class->connectArrays($config[static::PARAMS_KEY], [$config[static::RENDER_KEY][static::DATA_KEY], $class->getContentByTags($config)]);
+        echo $config[static::TEMPLATE_KEY]->render($config[static::RENDER_KEY][static::VIEW_KEY], $params);
     }
 
+    /**
+     * When you want to get content based on tags and return as array
+     * @param $config
+     * @return array
+     * @throws \Exception
+     */
     public function getContentByTags($config)
     {
         $vars = [];
 
-        foreach ($config['params']['tags'] as $tagSelector) {
-            $tag = TagModel::where('name', '=',$tagSelector['name'])->first();
+        foreach ($config[static::PARAMS_KEY][static::PLURAL_TAG_KEY] as $tagSelector) {
+            $tag = TagModel::where(static::NAME_KEY, '=',$tagSelector[static::NAME_KEY])->first();
             $content = $tag->contents;
-            $vars['tag'] = $tag->toArray();
-            VersionModel::AttachlatestActive($vars['tag']['contents']);
+            $vars[static::SINGLE_TAG_KEY] = $tag->toArray();
+            VersionModel::AttachlatestActive($vars[static::SINGLE_TAG_KEY][static::CONTENTS_KEY]);
         }
 
         return $vars;
@@ -103,8 +120,45 @@ class Content extends Module
     public static function single (array $config)
     {
         $class = new Static();
-        $params = $class->connectArrays($config[self::PARAMS_KEY], [$config[self::RENDER_KEY][self::DATA_KEY], $class->getSingleVersion($config)]);
-        echo $config[self::TEMPLATE_KEY]->render($config[self::RENDER_KEY][self::VIEW_KEY], $params);
+        $params = $class->connectArrays($config[static::PARAMS_KEY], [$config[static::RENDER_KEY][static::DATA_KEY], $class->getSingleVersion($config)]);
+        echo $config[static::TEMPLATE_KEY]->render($config[static::RENDER_KEY][static::VIEW_KEY], $params);
+    }
+
+    /**
+     * When you want to get a content piece with related item via static method
+     * @param array $config
+     */
+    public static function contentWithRelated (array $config)
+    {
+        $class = new Static();
+        $content = $class->getContentWithRelated($config);
+        $params = $class->connectArrays($config[static::PARAMS_KEY], [$config[static::RENDER_KEY][static::DATA_KEY], $content]);
+        echo $config[static::TEMPLATE_KEY]->render($config[static::RENDER_KEY][static::VIEW_KEY], $params);
+    }
+
+    /**
+     * get content with related content
+     * @param array $config
+     * @return array
+     */
+    public function getContentWithRelated (array $config)
+    {
+
+        $contentPiece = isset($config[static::PARAMS_KEY][static::TYPE_NAME_KEY]) ? ContentModel::where([static::NAME_KEY => $config[static::PARAMS_KEY][static::CONTENT_NAME_KEY], static::TYPE_NAME_KEY => $config[static::PARAMS_KEY][static::TYPE_NAME_KEY]]) : ContentModel::where(static::NAME_KEY, $config[static::PARAMS_KEY][static::CONTENT_NAME_KEY]);
+        $contentPiece = ContentModel::where(static::NAME_KEY, $config[static::PARAMS_KEY][static::CONTENT_NAME_KEY])->first();
+        $tags = $contentPiece->tags;
+
+        foreach ($tags as $tag) {
+            isset($config[static::PARAMS_KEY][static::TYPE_NAME_KEY]) ? $tag->getContentWithVersion($config[static::PARAMS_KEY][static::CONTENT_NAME_KEY], $config[static::PARAMS_KEY][static::TYPE_NAME_KEY]) :  $tag->getContentWithVersion();
+        }
+
+        $version = $contentPiece->latestVersion();
+        $contentArray = $contentPiece->toArray();
+        $contentArray[static::VERSION_KEY] = $version;
+        return $contentArray;
+
+
+
     }
 
     public function getSingleVersion($config)
@@ -112,8 +166,6 @@ class Content extends Module
 
         $versionParams = '';
         $i = 0;
-
-
 
         if (!is_string($config[static::CONFIG_PARAMETERS_KEY][static::VERSION_KEY])) {
 
@@ -124,21 +176,20 @@ class Content extends Module
 
         }
 
-
         $version = VersionModel::whereRaw($versionParams)->first();
         $content = $version->content;
         $version = $version->toArray();
-        $version['data'] = json_decode($version['data'], 1);
-        return ['version' => $version];
+        $version[static::DATA_KEY] = json_decode($version[static::DATA_KEY], 1);
+        return [static::VERSION_KEY => $version];
     }
 
     public static function contentItem($config)
     {
-        $version = VersionModel::where('content_name', $config['params']['content_name'])->first();
+        $version = VersionModel::where(static::CONTENT_NAME_KEY, $config[static::PARAMS_KEY][static::CONTENT_NAME_KEY])->first();
         $content = $version->content;
-        $config['params']['version'] = $version->toArray();
-        $config['params'][self::VERSION_KEY][self::DATA_KEY] = json_decode($config['params'][self::VERSION_KEY][self::DATA_KEY], 1);
-        echo $config[self::TEMPLATE_KEY]->render($config[self::RENDER_KEY][self::VIEW_KEY],$config['params']);
+        $config[static::PARAMS_KEY][static::VERSION_KEY] = $version->toArray();
+        $config[static::PARAMS_KEY][static::VERSION_KEY][static::DATA_KEY] = json_decode($config[static::PARAMS_KEY][static::VERSION_KEY][static::DATA_KEY], 1);
+        echo $config[static::TEMPLATE_KEY]->render($config[static::RENDER_KEY][static::VIEW_KEY],$config[static::PARAMS_KEY]);
     }
 
 
@@ -165,7 +216,7 @@ class Content extends Module
             }
 
         } catch (\Exception $e) {
-            echo SELF::EXCEPTION_MESSAGE . $e->getMessage();
+            echo static::EXCEPTION_MESSAGE . $e->getMessage();
         }
     }
 

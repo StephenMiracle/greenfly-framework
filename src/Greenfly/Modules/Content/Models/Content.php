@@ -10,7 +10,7 @@ class Content extends Model
 
     public function versions()
     {
-        return $this->hasMany('Greenfly\Modules\Content\Models\Version', 'name', 'name');
+        return $this->hasMany('Greenfly\Modules\Content\Models\Version');
     }
 
     public function type()
@@ -25,7 +25,18 @@ class Content extends Model
 
     public function tags()
     {
-        return $this->hasMany('Greenfly\Modules\Content\Models\Tags', 'name', 'name');
+        return $this->belongsToMany('Greenfly\Modules\Content\Models\Tag');
+    }
+
+    /**
+     * returns the latest version of a content piece as an array.
+     * @return array
+     */
+    public function latestVersion()
+    {
+        $version = Version::where('content_name', $this->getAttributeValue('name'))->orderBy('published_date', 'DESC')->first()->toArray();
+        $version['data'] = json_decode($version['data']);
+        return $version;
     }
 
 

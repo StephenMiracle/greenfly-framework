@@ -21,6 +21,12 @@ class Version extends Model
         return $this->belongsToMany('Greenfly\Modules\Content\Models\Tag', 'name', 'name');
     }
 
+    /**
+     * This method allows you to attach the latest Content Version to an array that has an active status of 1
+     * @param $contents
+     * @return array
+     * @throws \Exception
+     */
     public static function attachLatestActive(&$contents)
     {
         $class = new Static();
