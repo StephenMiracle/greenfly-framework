@@ -6,8 +6,8 @@ use Greenfly\Modules\Model;
 
 class Tag extends Model
 {
-    protected $fillable = ['name', 'type_name'];
-    protected $typeName = 'type_name';
+    protected $fillable = ['name', 'taxonomy_name'];
+    protected $typeName = 'type_name'; 
     public $typerName;
     public $take;
 

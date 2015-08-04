@@ -21,15 +21,15 @@ class Installer {
         Capsule::schema()->create('contents', function ($table) {
             $table->increments('id');
             $table->string('name');
-            $table->integer('type_id')->unsigned();
-            $table->timestamps();
+            $table->string('type_name');
+            $table->timestamps(); 
         });
 
         Capsule::schema()->create('versions', function ($table) {
             $table->increments('id');
-            $table->text('name');
+            $table->string('name');
             $table->text('data');
-            $table->integer('content_id')->unsigned();
+            $table->string('content_name');						$table->string('locale');
             $table->timestamps();
             $table->timestamp('published_date');
             $table->integer('status');
@@ -45,22 +45,14 @@ class Installer {
         Capsule::schema()->create('tags', function ($table) {
             $table->increments('id');
             $table->string('name');
-            $table->integer('taxonomy_id')->unsigned();
+            $table->string('taxonomy_name');
             $table->timestamps();
         });
 
-        Capsule::schema()->create('tag_version', function ($table) {
-            $table->increments('id');
-            $table->integer('tag_id')->unsigned();
-            $table->integer('version_id')->unsigned();
-        });
-
-        Capsule::schema()->create('taxonomy_types', function ($table) {
-            $table->increments('id');
-            $table->integer('taxonomy_id')->unsigned();
-            $table->integer('type_id')->unsigned();
-            $table->timestamps();
-        });
+        Capsule::schema()->create('content_tag', function ($table) {
+            $table->increments('id');			            $table->integer('content_id')->unsigned();
+            $table->integer('tag_id')->unsigned();
+        });
     }
 
 }

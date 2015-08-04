@@ -6,7 +6,7 @@ use Greenfly\Modules\Model;
 
 class Type extends Model
 {
-    protected $fillable = ['name', 'data'];
+    protected $fillable = ['name', 'data']; 
 
     public function content()
     {

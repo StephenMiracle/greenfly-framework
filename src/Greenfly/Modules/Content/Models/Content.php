@@ -1,7 +1,7 @@
 <?php
 
 namespace Greenfly\Modules\Content\Models;
-
+ 
 use Greenfly\Modules\Model;
 
 class Content extends Model

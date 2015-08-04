@@ -6,7 +6,7 @@ use Greenfly\Modules\Model;
 
 class Version extends Model
 {
-    protected $fillable = ['data', 'content_name', 'name', 'published_at', 'expired_at'];
+    protected $fillable = ['data', 'content_name', 'name', 'published_date', 'status', 'locale']; 
 
 
     public function content()

@@ -6,7 +6,7 @@ use Greenfly\Modules\Model;
 
 class Taxonomy extends Model
 {
-    protected $fillable = ['name'];
+    protected $fillable = ['name']; 
 
     public function content()
     {
