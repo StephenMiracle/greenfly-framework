@@ -1,7 +1,8 @@
 {
     "name": "greenfly/framework",
-    "description": "Rapid CMS made for creative professionals",
-    "version" : "0.1.2",
+    "description": "Rapid CMF made for creative professionals",
+    "keywords": ["framework", "greenfly", "CMS"],
+    "license": "MIT",
     "authors": [
         {
             "name": "Stephen Miracle",
@@ -11,7 +12,10 @@
     "require": {
         "phly/phlyty": "dev-master",
         "twig/twig": "~1.0",
-        "illuminate/database": "~5.1"
+        "illuminate/database": "~5.1",
+        "monolog/monolog": "~1.11",
+        "symfony/debug": "2.7.*",
+        "symfony/var-dumper": "2.7.*"
     },
     "autoload": {
         "psr-0": {
