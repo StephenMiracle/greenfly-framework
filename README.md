@@ -81,7 +81,7 @@ For Example, the following would produce an acceptable documents.json file.
 
                 "render" : {
 
-                    "view" : "article.html"
+                    "view" : "article.html",
 
                     "data" : { "itemClass" : "class1 class2" }
 
