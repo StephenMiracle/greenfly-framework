@@ -2,6 +2,7 @@
     "name": "greenfly/framework",
     "description": "Rapid CMF made for creative professionals",
     "keywords": ["framework", "greenfly", "CMS"],
+    "version" : "1.0.0",
     "license": "MIT",
     "authors": [
         {
