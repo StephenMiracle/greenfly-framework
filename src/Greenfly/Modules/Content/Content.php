@@ -101,28 +101,136 @@ class Content extends Module
 
     public $renderObject = 'renderer';
 
+    public $take;
+
+    public $type;
+
+    public $types;
+
+    public $taxonomy;
+
+    public $taxonomies;
+
+    public $taxonomy_name;
+
+    public $offset;
+
+    public $type_name;
+
+    public $content_name;
+
+    public $contents;
+
+    public $model;
+
+    public $method;
+
+    public $params;
+
+    public $sections;
+
+    public $render;
+
+    public $data;
+
+    public $view;
+
+    public $version;
+
+    public $tag;
+
+    public $tags;
+
+    public $type_id;
+
+    public $name;
 
 
-
-
-
-
-
-    public static function index()
+    public function __construct(array $config = [])
 
     {
 
-        return ContentModel::where(static::TYPE_ID_KEY, '=', 1)->with(static::VERSION_KEY)->take(20)->get()->toArray();
+
+        try {
+
+
+            if (!empty($config)) {
+
+
+                $this->setupFromConfig($config);
+
+
+            }
+
+
+        } catch (\Symfony\Component\Config\Definition\Exception\Exception $e) {
+
+
+            echo $e; die();
+
+
+        }
+
+
 
     }
 
+
+
+    protected function setupFromConfig($config)
+
+    {
+
+
+        $this->setParams($this->connectArrays($config[static::PARAMS_KEY], [$config[static::RENDER_KEY][static::DATA_KEY]]));
+        $this->setTemplate($config[static::TEMPLATE_KEY]);
+        $this->setView($config[static::RENDER_KEY][static::VIEW_KEY]);
+
+
+    }
+
+
+
+    protected function setView($view)
+
+    {
+
+
+        $this->view = $view;
+
+
+    }
+
+
+
+    protected function setTemplate($template)
+
+    {
+
+
+        $this->template = $template;
+
+
+    }
+
+
+
+    protected function setParams (array $params)
+
+    {
+
+
+        $this->params = $params;
+
+
+    }
 
 
 
     public static function taxonomiesWithTagsAndTypes(array $config)
 
     {
-        $class = new Static();
+        $class = new Static($config);
 
         $taxonomies = TaxonomyModel::all();
 
@@ -149,9 +257,10 @@ class Content extends Module
 
         }
 
-        $config[static::PARAMS_KEY][static::PLURAL_TAXONOMY_KEY] = $taxonomies->toArray();
+        $class->params[static::PLURAL_TAXONOMY_KEY] = $taxonomies->toArray();
 
-        $class->renderContent($config);
+
+        $class->renderObjectContent();
 
 
     }
@@ -288,7 +397,32 @@ class Content extends Module
 
 
 
+    protected function renderObjectContent()
 
+    {
+
+
+        try {
+
+            echo $this->template->render($this->view, $this->params);
+
+        } catch (\Exception $e) {
+
+            echo $e; die;
+
+        }
+
+
+    }
+
+
+    /**
+     * renders content from config array.
+     *
+     * @deprecated Preferred method to render new methods is renderObjectContent.
+     *
+     * @param array $config
+     */
     protected function renderContent(array $config)
 
     {
@@ -296,13 +430,17 @@ class Content extends Module
 
         try {
 
+
             $params = $this->connectArrays($config[static::PARAMS_KEY], [$config[static::RENDER_KEY][static::DATA_KEY]]);
 
             echo $config[static::TEMPLATE_KEY]->render($config[static::RENDER_KEY][static::VIEW_KEY], $params);
 
+
         } catch (\Exception $e) {
 
+
             echo $e; die;
+
 
         }
 

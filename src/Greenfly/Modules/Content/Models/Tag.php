@@ -17,33 +17,37 @@ class Tag extends Model
     protected $fillable = ['name', 'taxonomy_name'];
 
     protected $typeName = 'type_name';
+
+    public $currentContentName;
  
     public $typerName;
+
+    public $offset;
 
     public $take;
 
 
-
-    public function versions()
-
-    {
-
-        return $this->belongsToMany('Greenfly\Modules\Content\Models\Version');
-
-    }
-
-
-
+    /**
+     * get the taxonomy entity associated with a tag.
+     *
+     * @return mixed
+     */
     public function taxonomy()
 
     {
 
-        return $this->belongsTo('Greenfly\Modules\Content\Models\Taxonomy');
+
+        return Taxonomy::where('taxonomy_name', $this->taxonomy_name)->firstOrFail();
+
 
     }
 
 
-
+    /**
+     *
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function contents()
 
     {
@@ -54,7 +58,7 @@ class Tag extends Model
 
         if (!empty($this->typerName)) {
 
-            $contents->where('type_name', $this->typerName);
+            $contents->where('type_name', $this->typeName);
 
         }
 
@@ -88,23 +92,17 @@ class Tag extends Model
 
         return $contents;
 
+
     }
 
 
 
-    public function getContentWithVersion($currentContentName = '', $type_name = '', $take = '', $offset = '')
+
+    public function getContentWithVersion()
 
     {
 
-        $this->currentContentName = $currentContentName;
-
-        $this->typerName = $type_name;
-
-        $this->take = $take;
-
-        $this->offset = $offset;
-
-        $contents = $this->contents;
+        $contents = $this->contents();
 
 
 
@@ -115,19 +113,19 @@ class Tag extends Model
         }
 
 
-
         return $contents;
+
 
     }
 
 
 
-    public function getContents($params)
+
+    public function getContents()
 
     {
 
         $contentQuery = $this->belongsToMany('Greenfly\Modules\Content\Models\Content');
-
 
 
         if (!empty($this->typerName)) {
@@ -152,13 +150,15 @@ class Tag extends Model
         }
 
 
-
         $contentQuery->orderBy('published_date', 'DESC');
-
 
 
         return $contentQuery;
 
+
     }
+
+
+
 
 }
