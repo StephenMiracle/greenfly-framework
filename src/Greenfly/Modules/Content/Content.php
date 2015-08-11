@@ -33,7 +33,7 @@ use Greenfly\Modules\Content\Models\Taxonomy as TaxonomyModel;
 use Greenfly\Modules\Content\Models\Tag as TagModel;
 
 use \Exception;
-
+use Symfony\Component\Debug\Debug;
 
 
 class Content extends Module
@@ -44,9 +44,6 @@ class Content extends Module
 
     const EXCEPTION_MESSAGE = 'Caught Exception: ';
 
-    const CONFIG_MODEL_KEY = 'model';
-
-    const CONFIG_METHOD_KEY = 'method';
 
     const CONFIG_PARAMETERS_KEY = 'params';
 
@@ -91,17 +88,7 @@ class Content extends Module
     const TYPE_NAME_EXCEPTION_MESSAGE = 'Parameter "<strong>type_name</strong>" must be either a string or an array';
 
 
-    protected $contentModel;
 
-    protected $typeModel;
-
-    protected $versionModel;
-
-    public $viewsList = 'views';
-
-    public $renderObject = 'renderer';
-
-    public $take;
 
     public $type;
 
@@ -121,10 +108,6 @@ class Content extends Module
 
     public $contents;
 
-    public $model;
-
-    public $method;
-
     public $params;
 
     public $sections;
@@ -143,7 +126,6 @@ class Content extends Module
 
     public $type_id;
 
-    public $name;
 
 
     public function __construct(array $config = [])
@@ -183,7 +165,9 @@ class Content extends Module
 
 
         $this->setParams($this->connectArrays($config[static::PARAMS_KEY], [$config[static::RENDER_KEY][static::DATA_KEY]]));
+
         $this->setTemplate($config[static::TEMPLATE_KEY]);
+
         $this->setView($config[static::RENDER_KEY][static::VIEW_KEY]);
 
 
@@ -230,6 +214,7 @@ class Content extends Module
     public static function taxonomiesWithTagsAndTypes(array $config)
 
     {
+
         $class = new Static($config);
 
         $taxonomies = TaxonomyModel::all();
@@ -272,9 +257,13 @@ class Content extends Module
     {
 
 
-        $class = new Static();
+        $class = new Static($config);
 
-        $types = $class->typeQueryBuilder($config[static::PARAMS_KEY]);
+        $take = isset ($class->params[static::TAKE_KEY]) ? $class->params[static::TAKE_KEY] : null;
+
+        $typesList = isset ($class->params[static::PLURAL_TYPE_KEY]) ? $class->params[static::PLURAL_TYPE_KEY] : '';
+
+        $types = $class->typeQueryBuilder($typesList, $take);
 
 
         foreach ($types as $type) {
@@ -298,10 +287,10 @@ class Content extends Module
 
         }
 
-        $config[static::PARAMS_KEY][static::PLURAL_TYPE_KEY] = $types->toArray();
 
-        $class->renderContent($config);
+        $class->params[static::PLURAL_TYPE_KEY] = $types->toArray();
 
+        $class->renderObjectContent();
 
 
     }
@@ -309,7 +298,7 @@ class Content extends Module
 
 
 
-    protected function typeQueryBuilder ($params)
+    protected function typeQueryBuilder ($types = '', $take = null, $offset = null)
 
     {
 
@@ -317,19 +306,19 @@ class Content extends Module
         $query = TypeModel::all();
 
 
-        if (isset($params[static::TYPE_NAME_KEY])) {
+        if (empty($types)) {
 
 
-            if (is_string($params[static::TYPE_NAME_KEY])) {
+            if (is_string($types)) {
 
 
-                $query = $query->where(static::NAME_KEY, $params[static::TYPE_NAME_KEY]);
+                $query = $query->where(static::NAME_KEY, $types);
 
 
-            } elseif (is_array($params[static::TYPE_NAME_KEY])) {
+            } elseif (is_array($types)) {
 
 
-                foreach ($params[static::TYPE_NAME_KEY] as $name) {
+                foreach ($types as $name) {
 
 
                     $query = $query->where(static::TYPE_NAME_KEY, $name);
@@ -340,7 +329,9 @@ class Content extends Module
 
             } else {
 
+
                 throw new Exception (static::TYPE_NAME_EXCEPTION_MESSAGE);
+
 
             }
 
@@ -348,9 +339,11 @@ class Content extends Module
         }
 
 
-        if (isset($params[static::TAKE_KEY])) {
+        if ($take) {
 
-            $query = $query->take($params[static::TAKE_KEY]);
+
+            $query = $query->take($take);
+
 
         }
 
@@ -367,9 +360,16 @@ class Content extends Module
 
     {
 
-        $class = new Static();
 
-        $contentQuery = $class->contentQueryBuilder($config[static::PARAMS_KEY]);
+        $class = new Static($config);
+
+        $typeName = isset($class->params[static::TYPE_NAME_KEY]) ? $class->params[static::TYPE_NAME_KEY] : '';
+
+        $take = isset($class->params[static::TAKE_KEY]) ? $class->params[static::TAKE_KEY] : null;
+
+        $offset = isset($class->params[static::OFFSET_KEY]) ? $class->params[static::OFFSET_KEY] : null;
+
+        $contentQuery = $class->contentQueryBuilder($typeName, $take, $offset);
 
 
         foreach ($contentQuery as $content) {
@@ -377,21 +377,26 @@ class Content extends Module
 
             try {
 
+
                 $content->tags;
                 $content->versions = $content->versions()->toArray();
 
+
             } catch (\Exception $e) {
+
 
                 echo $e; die;
 
+
             }
+
 
         }
 
-        $config[static::PARAMS_KEY][static::CONTENTS_KEY] = $contentQuery->toArray();
+        $class->params[static::CONTENTS_KEY] = $contentQuery->toArray();
 
+        $class->renderObjectContent();
 
-        $class->renderContent($config);
 
     }
 
@@ -404,11 +409,15 @@ class Content extends Module
 
         try {
 
+
             echo $this->template->render($this->view, $this->params);
+
 
         } catch (\Exception $e) {
 
+
             echo $e; die;
+
 
         }
 
@@ -419,7 +428,7 @@ class Content extends Module
     /**
      * renders content from config array.
      *
-     * @deprecated Preferred method to render new methods is renderObjectContent.
+     * @deprecated Preferred method to render is renderObjectContent.
      *
      * @param array $config
      */
@@ -450,7 +459,7 @@ class Content extends Module
 
 
 
-    protected function contentQueryBuilder (array $params)
+    protected function contentQueryBuilder ($typeName = '', $take = null, $offset = '')
 
     {
 
@@ -458,20 +467,22 @@ class Content extends Module
         $contentQuery = ContentModel::all();
 
 
-        if (isset($params[static::TYPE_NAME_KEY])) {
+        if (!empty($typeName)) {
 
-            $contentQuery = $contentQuery->where(static::TYPE_NAME_KEY, $params[static::TYPE_NAME_KEY]);
+
+            $contentQuery = $contentQuery->where(static::TYPE_NAME_KEY, $typeName);
+
 
         }
 
 
-        if (isset($params[static::TAKE_KEY])) {
+        if ($take) {
 
-            $contentQuery = $contentQuery->take($params[static::TAKE_KEY]);
+
+            $contentQuery = $contentQuery->take($take);
+
 
         }
-
-
 
 
         return $contentQuery;
@@ -492,7 +503,9 @@ class Content extends Module
 
         foreach ($config[static::SECTIONS_KEY] as $section => $content) {
 
+
             $class->runSection($content, $config[static::TEMPLATE_KEY], $config[static::PARAMS_KEY]);
+
 
         }
 
@@ -509,9 +522,12 @@ class Content extends Module
 
         if (is_string($content)) {
 
+
             echo $template->render($content, $additionalVars);
 
+
         } elseif (isset($content[static::CONFIG_CALLBACK_KEY])) {
+
 
             $content[static::CONFIG_KEY][static::TEMPLATE_KEY] = $template;
 
@@ -519,9 +535,12 @@ class Content extends Module
 
             call_user_func($content[static::CONFIG_CALLBACK_KEY], $content[static::CONFIG_KEY]);
 
+
         } elseif (isset($content[static::RENDER_WITH_DATA_KEY])) {
 
+
             $this->renderWithData($content, $template, [$additionalVars, $content[static::RENDER_WITH_DATA_KEY]]);
+
 
         }
 
@@ -539,11 +558,13 @@ class Content extends Module
 
     {
 
+
         $class = new Static();
 
         $params = $class->connectArrays($config[static::PARAMS_KEY], [$config[static::RENDER_KEY][static::DATA_KEY], $class->getContentByTags($config)]);
 
         echo $config[static::TEMPLATE_KEY]->render($config[static::RENDER_KEY][static::VIEW_KEY], $params);
+
 
     }
 
@@ -602,11 +623,13 @@ class Content extends Module
 
     {
 
+
         $class = new Static();
 
         $params = $class->connectArrays($config[static::PARAMS_KEY], [$config[static::RENDER_KEY][static::DATA_KEY], $class->getSingleVersion($config)]);
 
         echo $config[static::TEMPLATE_KEY]->render($config[static::RENDER_KEY][static::VIEW_KEY], $params);
+
 
     }
 
@@ -621,6 +644,7 @@ class Content extends Module
 
     {
 
+
         $class = new Static();
 
         $content = $class->getContentWithRelated($config);
@@ -628,6 +652,7 @@ class Content extends Module
         $params = $class->connectArrays($config[static::PARAMS_KEY], [$config[static::RENDER_KEY][static::DATA_KEY], $content]);
 
         echo $config[static::TEMPLATE_KEY]->render($config[static::RENDER_KEY][static::VIEW_KEY], $params);
+
 
     }
 
@@ -644,7 +669,20 @@ class Content extends Module
     {
 
 
-         $contentPiece = ContentModel::where(static::NAME_KEY, $config[static::PARAMS_KEY][static::CONTENT_NAME_KEY])->first();
+        try {
+
+
+            $contentPiece = ContentModel::where(static::NAME_KEY, $config[static::PARAMS_KEY][static::CONTENT_NAME_KEY])->first();
+
+
+        } catch (\Exception $e) {
+
+
+            dd($e);
+
+
+        }
+
 
         $tags = $contentPiece->tags;
 
@@ -655,13 +693,18 @@ class Content extends Module
 
         foreach ($tags as $tag) {
 
+
             if (!isset($config[static::PARAMS_KEY][static::TYPE_NAME_KEY])) {
+
 
                 $config[static::PARAMS_KEY][static::TYPE_NAME_KEY] = '';
 
+
             }
 
+
             $tag->getContentWithVersion($config[static::PARAMS_KEY][static::CONTENT_NAME_KEY], $config[static::PARAMS_KEY][static::TYPE_NAME_KEY], $take, $offset);
+
 
         }
 

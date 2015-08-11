@@ -6,6 +6,11 @@ namespace Greenfly\Modules\Content;
 
 
 
+use Greenfly\Modules\Content\Models\Content;
+use Greenfly\Modules\Content\Models\Taxonomy;
+use Greenfly\Modules\Content\Models\Type;
+use Greenfly\Modules\Content\Models\Version;
+use Greenfly\Modules\Content\Models\Tag;
 use \Illuminate\Database\Capsule\Manager as Capsule;
 
 
@@ -125,6 +130,24 @@ class Installer {
 
         });
 
+
+        $type = Type::updateOrCreate(['name' => 'page']);
+
+        $content = Content::updateOrCreate(['name' => 'sample-page-1', 'type_name' => 'page']);
+
+        Version::updateOrCreate(['name' => 'sample-page-1-v1', 'content_name' => 'sample-page-1', 'locale' => 'en-us', 'data' => '{"title" : "My sample page", "description" : "a sample page summary"', 'published_date' => date('Y:m:d H:i:s')]);
+
+        Version::updateOrCreate(['name' => 'sample-page-1-v2', 'content_name' => 'sample-page-1', 'locale' => 'en-ca', 'data' => '{"title" : "My sample page", "description" : "a sample page summary"', 'published_date' => date('Y:m:d H:i:s')]);
+
+        Version::updateOrCreate(['name' => 'sample-page-1-v3', 'content_name' => 'sample-page-1', 'locale' => 'sp-us', 'data' => '{"title" : "Mi página de muestra", "description" : "un resumen de una página de muestra"', 'published_date' => date('Y:m:d H:i:s')]);
+
+        $taxonomy = Taxonomy::updateOrCreate(['name' => 'page-categories']);
+
+        $tag = Tag::updateOrCreate(['name' => 'company info', 'taxonomy_name' => 'page-categories']);
+
+        $content->tags()->attach($tag->id);
+
+        $taxonomy->types()->attach($type->id);
 
     }
 

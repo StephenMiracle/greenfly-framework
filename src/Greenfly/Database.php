@@ -18,15 +18,10 @@ class Database
 
     {
 
+
         $capsule = new Capsule();
 
-
-
-
-
         $capsule->addConnection($config);
-
-
 
         $capsule->setAsGlobal();
 

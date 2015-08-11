@@ -110,12 +110,24 @@ class Content extends Model
      *
      * @return array
      */
-    public function latestVersion()
+    public function latestVersion(array $fields = [])
 
     {
 
 
-        $version = Version::where('content_name', $this->getAttributeValue('name'))->orderBy('published_date', 'DESC')->first()->toArray();
+
+            if (!isset($fields['content_name'])) {
+
+
+                $fields['content_name'] = $this->getAttributeValue('name');
+
+
+            }
+
+
+            $version = Version::where($fields)->orderBy('published_date', 'DESC')->first()->toArray();
+
+
 
         $version['data'] = json_decode($version['data']);
 
