@@ -1,17 +1,5 @@
 <?php
 
-/**
-
- * Created by PhpStorm.
-
- * User: scraig
-
- * Date: 6/26/2015
-
- * Time: 8:25 PM
-
- */
-
 
 
 namespace Greenfly\Modules\Content;
@@ -32,10 +20,19 @@ use Greenfly\Modules\Content\Models\Taxonomy as TaxonomyModel;
 
 use Greenfly\Modules\Content\Models\Tag as TagModel;
 
-use \Exception;
-use Symfony\Component\Debug\Debug;
+use Symfony\Component\Config\Definition\Exception;
+
+use Greenfly\Template;
 
 
+/**
+ * Class Content
+ * @package Greenfly\Modules\Content
+ *
+ * @todo add documentation.
+ *
+ * @todo refactor out unnecessary variables and constants.
+ */
 class Content extends Module
 
 {
@@ -43,7 +40,6 @@ class Content extends Module
 
 
     const EXCEPTION_MESSAGE = 'Caught Exception: ';
-
 
     const CONFIG_PARAMETERS_KEY = 'params';
 
@@ -127,7 +123,11 @@ class Content extends Module
     public $type_id;
 
 
-
+    /**
+     * @param array $config
+     *
+     * @todo add documentation.
+     */
     public function __construct(array $config = [])
 
     {
@@ -145,7 +145,7 @@ class Content extends Module
             }
 
 
-        } catch (\Symfony\Component\Config\Definition\Exception\Exception $e) {
+        } catch (Exception $e) {
 
 
             echo $e; die();
@@ -158,7 +158,12 @@ class Content extends Module
     }
 
 
-
+    /**
+     * @param $config
+     *
+     * @todo add documentation.
+     *
+     */
     protected function setupFromConfig($config)
 
     {
@@ -174,7 +179,9 @@ class Content extends Module
     }
 
 
-
+    /**
+     * @param string $view the view file to render.
+     */
     protected function setView($view)
 
     {
@@ -186,8 +193,10 @@ class Content extends Module
     }
 
 
-
-    protected function setTemplate($template)
+    /**
+     * @param Template $template the template engine to render
+     */
+    protected function setTemplate(Template $template)
 
     {
 
@@ -198,7 +207,9 @@ class Content extends Module
     }
 
 
-
+    /**
+     * @param array $params the parameters that the method & view need in order to render.
+     */
     protected function setParams (array $params)
 
     {
@@ -210,7 +221,11 @@ class Content extends Module
     }
 
 
-
+    /**
+     * @param array $config
+     *
+     * @todo add documentation.
+     */
     public static function taxonomiesWithTagsAndTypes(array $config)
 
     {
@@ -251,7 +266,12 @@ class Content extends Module
     }
 
 
-
+    /**
+     * @param array $config
+     * @throws Exception
+     *
+     * @todo add documentation.
+     */
     public static function typesWithContentAndTaxonomies (array $config)
 
     {
@@ -296,8 +316,15 @@ class Content extends Module
     }
 
 
-
-
+    /**
+     * @param string $types
+     * @param null $take
+     * @param null $offset
+     * @return \Illuminate\Database\Eloquent\Collection|static|static[]
+     * @throws Exception
+     *
+     * @todo May need to refactor out. I don't like this method but couldn't figure out a better way to handle.
+     */
     protected function typeQueryBuilder ($types = '', $take = null, $offset = null)
 
     {
@@ -354,8 +381,11 @@ class Content extends Module
     }
 
 
-
-
+    /**
+     * @param array $config
+     *
+     * @todo add documentation.
+     */
     public static function contentArchive(array $config)
 
     {
@@ -401,7 +431,9 @@ class Content extends Module
     }
 
 
-
+    /**
+     * Method to echo view response via the class.
+     */
     protected function renderObjectContent()
 
     {
@@ -457,8 +489,16 @@ class Content extends Module
     }
 
 
-
-
+    /**
+     * build a query for the content.
+     *
+     * @param string $typeName
+     * @param null $take
+     * @param string $offset
+     * @return \Illuminate\Database\Eloquent\Collection|static|static[]
+     *
+     * @todo may refactor out method as this isn't preferred but couldn't find a better way to handle.
+     */
     protected function contentQueryBuilder ($typeName = '', $take = null, $offset = '')
 
     {
@@ -491,8 +531,15 @@ class Content extends Module
     }
 
 
-
-
+    /**
+     * Good for custom pages with different needs. May be cumbersome on resources.
+     *
+     * @param array $config
+     *
+     * @paaram array [static::SECTIONS_KEY] each section can contain its own callback or render.
+     *
+     * @todo add documentation.
+     */
     public static function sections (array $config)
 
     {
@@ -504,7 +551,20 @@ class Content extends Module
         foreach ($config[static::SECTIONS_KEY] as $section => $content) {
 
 
-            $class->runSection($content, $config[static::TEMPLATE_KEY], $config[static::PARAMS_KEY]);
+            try {
+
+
+                $class->runSection($content, $config[static::TEMPLATE_KEY], $config[static::PARAMS_KEY]);
+
+
+
+            } catch (\Exception $e) {
+
+
+                dd($e);
+
+
+            }
 
 
         }
@@ -514,11 +574,18 @@ class Content extends Module
     }
 
 
-
-
-    protected function runSection ($content, $template, $additionalVars = [])
+    /**
+     * @param mixed $content  add necessary config to run the section. Can be string to the view file, an array with callback or able to renderData.
+     * @param Template $template add template in order to render the section
+     * @param array $additionalVars when you need to add additional variables to send to view file.
+     *
+     * @todo add documentation.
+     *
+     */
+    protected function runSection ($content, Template $template, array $additionalVars = [])
 
     {
+
 
         if (is_string($content)) {
 
@@ -551,8 +618,12 @@ class Content extends Module
 
 
     /**
-     * get content based on tags and render through template view
+     * get content based on tags and render through template view.
+     *
      * @param array $config
+     *
+     * @todo refactor method to use new renderObjectContent instead of deprecated renderContent.
+     *
      */
     public static function contentByTags(array $config)
 
@@ -576,6 +647,8 @@ class Content extends Module
      * @param $config
      * @return array
      * @throws \Exception
+     *
+     * @todo refactor method to use new renderObjectContent instead of deprecated renderContent.
      */
     public function getContentByTags($config)
 
@@ -587,7 +660,7 @@ class Content extends Module
 
         foreach ($config[static::PARAMS_KEY][static::PLURAL_TAG_KEY] as $tagSelector) {
 
-            $tag = TagModel::where(static::NAME_KEY, '=',$tagSelector[static::NAME_KEY])->first();
+            $tag = TagModel::where(static::NAME_KEY, $tagSelector[static::NAME_KEY])->first();
 
 
 
@@ -618,6 +691,9 @@ class Content extends Module
 
     /**
      * @param array $config
+     *
+     * @todo refactor method to use new renderObjectContent instead of deprecated renderContent.
+     * @todo add documentation.
      */
     public static function single (array $config)
 
@@ -637,8 +713,12 @@ class Content extends Module
 
 
     /**
-     * When you want to get a content piece with related item via static method
+     * When you want to get a content piece with related item via static method.
+     *
      * @param array $config
+     *
+     * @todo refactor method to use new renderObjectContent instead of deprecated renderContent
+     *
      */
     public static function contentWithRelated (array $config)
 
@@ -660,9 +740,14 @@ class Content extends Module
 
 
     /**
-     * get content with related content
+     * get content with related content.
+     *
      * @param array $config
      * @return array
+     *
+     * @todo refactor method to use new renderObjectContent instead of deprecated renderContent.
+     * @todo refactor to use specific parameters instead of config array.
+     *
      */
     public function getContentWithRelated (array $config)
 
@@ -685,6 +770,7 @@ class Content extends Module
 
 
         $tags = $contentPiece->tags;
+
 
         $take = isset($config[static::PARAMS_KEY][static::TAKE_KEY]) ? $config[static::PARAMS_KEY][static::TAKE_KEY] : 0;
 
@@ -724,6 +810,8 @@ class Content extends Module
     /**
      * @param $config
      * @return array
+     *
+     * @todo refactor method to use new renderObjectContent instead of deprecated renderContent
      */
     public function getSingleVersion($config)
 
@@ -766,6 +854,12 @@ class Content extends Module
 
 
 
+    /**
+     * @param $config
+     *
+     * @todo refactor method to use new renderObjectContent instead of deprecated renderContent
+     * @todo add documentation
+     */
     public static function contentItemWithAllVersions($config)
 
     {
@@ -783,6 +877,13 @@ class Content extends Module
 
     }
 
+
+    /**
+     * @param $config
+     *
+     * @todo refactor method to use new renderObjectContent instead of deprecated renderContent
+     * @todo add documentation
+     */
     public static function contentItem($config)
 
     {

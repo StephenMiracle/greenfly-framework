@@ -18,13 +18,9 @@ namespace Greenfly;
 
 
 
-use Zend\Mvc\Controller;
-
-use Greenfly\App;
 
 
-
-class Module extends App
+abstract class Module extends App
 
 {
 
@@ -34,21 +30,6 @@ class Module extends App
 
 
 
-    public function __construct()
-
-    {
-
-
-
-    }
-
-
-
-    public function init()
-
-    {
-
-    }
 
 
 

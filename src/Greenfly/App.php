@@ -10,29 +10,61 @@ use Symfony\Component\Debug\Exception\FatalThrowableError as Error;
  *
  * @category   Greenfly
  * @package    Greenfly
+ *
+ * @todo update PUT and DELETE methods for use.
+ * @todo update documentation
  */
 class App
 {
+
+
+
+
     const DATABASE_CONFIG_KEY = 'database';
+
     const SITE_CONFIG_KEY = 'site';
+
     const CONFIG_CALLBACK_KEY = 'callback';
+
     const DOCUMENT_GET_KEY = 'get';
+
     const DOCUMENT_POST_KEY = 'post';
+
     const DOCUMENT_PUT_KEY = 'put';
+
     const DOCUMENT_DELETE_KEY = 'delete';
+
     const CONFIG_KEY = 'config';
+
     const PARAMS_KEY = 'params';
+
     const VARIABLES_KEY = 'variables';
+
     const TEMPLATE_KEY = 'template';
+
     const RENDER_WITH_DATA_KEY = 'renderData'; // Use instead of Callback if you just want to dump known data attributes into render file
+
     const VIEW_KEY = 'view';
+
     const ERROR_404_KEY = '404';
+
     const ENVIRONMENT_KEY = 'environment';
+
     const PRODUCTION_ENVIRONMENT = 'production';
 
+    const THEME_DIRECTORY_KEY = 'theme_directory';
+
+    const CACHE_DIRECTORY_KEY = 'theme_cache_directory';
+
+
+
+
     public $route;
+
     public $siteVariables;
+
     protected $template;
+
 
     public function __construct($config)
 
@@ -40,7 +72,7 @@ class App
 
 
 
-        if ($config[static::SITE_CONFIG_KEY][static::ENVIRONMENT_KEY] !== static::PRODUCTION_ENVIRONMENT) {
+        if (isset($config[static::SITE_CONFIG_KEY][static::ENVIRONMENT_KEY]) && $config[static::SITE_CONFIG_KEY][static::ENVIRONMENT_KEY] !== static::PRODUCTION_ENVIRONMENT) {
 
 
             Debug::enable();
@@ -49,13 +81,13 @@ class App
         }
 
 
-        Database::connect($config[self::SITE_CONFIG_KEY][self::DATABASE_CONFIG_KEY]);
+        Database::connect($config[static::SITE_CONFIG_KEY][static::DATABASE_CONFIG_KEY]);
 
-        $this->template = new Template($config[self::SITE_CONFIG_KEY]);
+        $this->template = new Template($config[static::SITE_CONFIG_KEY][static::THEME_DIRECTORY_KEY], $config[static::SITE_CONFIG_KEY][static::CACHE_DIRECTORY_KEY]);
 
         $this->route = new RouteSystem();
 
-        $this->siteVariables = $config[self::SITE_CONFIG_KEY][self::VARIABLES_KEY];
+        $this->siteVariables = $config[static::SITE_CONFIG_KEY][static::VARIABLES_KEY];
 
     }
 
@@ -82,7 +114,7 @@ class App
             } else {
 
 
-                throw new Error('Either missing JSON file or JSON file has errors'); die();
+                throw new Exception('Either missing JSON file or JSON file has errors'); die();
 
 
             }
@@ -109,10 +141,10 @@ class App
     {
 
 
-        if (isset($document[self::DOCUMENT_GET_KEY])) {
+        if (isset($document[static::DOCUMENT_GET_KEY])) {
 
 
-            foreach ($document[self::DOCUMENT_GET_KEY] as $route => $content) {
+            foreach ($document[static::DOCUMENT_GET_KEY] as $route => $content) {
 
 
                  $this->getRoute($route, $content);
@@ -123,10 +155,10 @@ class App
 
         }
 
-        if (isset($document[self::DOCUMENT_POST_KEY])) {
+        if (isset($document[static::DOCUMENT_POST_KEY])) {
 
 
-            foreach ($document[self::DOCUMENT_POST_KEY] as $route => $content) {
+            foreach ($document[static::DOCUMENT_POST_KEY] as $route => $content) {
 
 
                 $this->postRoute($route, $content);
@@ -138,10 +170,10 @@ class App
 
         }
 
-        if (isset($document[self::DOCUMENT_PUT_KEY])) {
+        if (isset($document[static::DOCUMENT_PUT_KEY])) {
 
 
-            foreach ($document[self::DOCUMENT_PUT_KEY] as $route => $content) {
+            foreach ($document[static::DOCUMENT_PUT_KEY] as $route => $content) {
 
 
                 $this->putRoute($route, $content);
@@ -152,10 +184,10 @@ class App
 
         }
 
-        if (isset($document[self::DOCUMENT_DELETE_KEY])) {
+        if (isset($document[static::DOCUMENT_DELETE_KEY])) {
 
 
-            foreach ($document[self::DOCUMENT_DELETE_KEY] as $route => $content) {
+            foreach ($document[static::DOCUMENT_DELETE_KEY] as $route => $content) {
 
 
                 $this->deleteRoute($route, $content);
@@ -205,25 +237,25 @@ class App
     {
 
 
-        if (isset($content[self::CONFIG_CALLBACK_KEY])) {
+        if (isset($content[static::CONFIG_CALLBACK_KEY])) {
 
 
-            if (!isset($content[self::CONFIG_KEY][self::PARAMS_KEY])) {
+            if (!isset($content[static::CONFIG_KEY][static::PARAMS_KEY])) {
 
 
-                $content[self::CONFIG_KEY][self::PARAMS_KEY] = [];
+                $content[static::CONFIG_KEY][static::PARAMS_KEY] = [];
 
 
             }
 
 
-             $this->connectArrays($content[self::CONFIG_KEY][self::PARAMS_KEY], [$this->siteVariables, $httpMethods, $params]);
+             $this->connectArrays($content[static::CONFIG_KEY][static::PARAMS_KEY], [$this->siteVariables, $httpMethods, $params]);
 
 
-            $content[self::CONFIG_KEY][self::TEMPLATE_KEY] = $this->template;
+            $content[static::CONFIG_KEY][static::TEMPLATE_KEY] = $this->template;
 
 
-            return call_user_func($content[self::CONFIG_CALLBACK_KEY], $content[self::CONFIG_KEY]);
+            return call_user_func($content[static::CONFIG_CALLBACK_KEY], $content[static::CONFIG_KEY]);
 
 
 
@@ -238,10 +270,10 @@ class App
             echo $this->template->render($content, $params);
 
 
-        } elseif (isset($content[self::RENDER_WITH_DATA_KEY])) {
+        } elseif (isset($content[static::RENDER_WITH_DATA_KEY])) {
 
 
-            $this->renderWithData($content, $this->template, [$this->siteVariables, $httpMethods, $content[self::RENDER_WITH_DATA_KEY]]);
+            $this->renderWithData($content, $this->template, [$this->siteVariables, $httpMethods, $content[static::RENDER_WITH_DATA_KEY]]);
 
 
         }

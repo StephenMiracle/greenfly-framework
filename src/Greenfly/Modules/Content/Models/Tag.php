@@ -16,7 +16,7 @@ class Tag extends Model
 
     protected $fillable = ['name', 'taxonomy_name'];
 
-    protected $typeName = 'type_name';
+    protected $typeName;
 
     public $currentContentName;
  
@@ -56,11 +56,12 @@ class Tag extends Model
 
 
 
-        if (!empty($this->typerName)) {
+        if (!empty($this->typeName)) {
 
             $contents->where('type_name', $this->typeName);
 
         }
+
 
 
 
@@ -98,11 +99,19 @@ class Tag extends Model
 
 
 
-    public function getContentWithVersion()
+    public function getContentWithVersion($currentContentName = '', $TypeName = '', $take = null, $offset = null)
 
     {
 
-        $contents = $this->contents();
+        $this->currentContentName = $currentContentName;
+
+        $this->typeName = $TypeName;
+
+        $this->take = $take;
+
+        $this->offset = $offset;
+
+        $contents = $this->contents;
 
 
 
@@ -111,6 +120,7 @@ class Tag extends Model
             $content->version = $content->latestVersion();
 
         }
+
 
 
         return $contents;

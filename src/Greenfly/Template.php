@@ -18,17 +18,9 @@ namespace Greenfly;
 
 
 
-use Exception;
-
-
 
 class Template {
 
-
-
-    const THEME_DIRECTORY_KEY = 'theme_directory';
-
-    const CACHE_DIRECTORY_KEY = 'theme_cache_directory';
 
     const RENDER_CONFIG_VIEW = 'view';
 
@@ -44,7 +36,7 @@ class Template {
 
 
 
-    public function __construct(array $config = [])
+    public function __construct($themeDirectory, $cacheDirectory)
 
     {
 
@@ -52,11 +44,11 @@ class Template {
 
 
 
-        $loader = new \Twig_Loader_Filesystem($config[self::THEME_DIRECTORY_KEY]);
+        $loader = new \Twig_Loader_Filesystem($themeDirectory);
 
         $this->twig = new \Twig_Environment($loader, array(
 
-            'cache' => $config[SELF::CACHE_DIRECTORY_KEY],
+            'cache' => $cacheDirectory,
 
             'debug' => true
 
