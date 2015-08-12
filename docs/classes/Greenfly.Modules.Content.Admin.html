@@ -1,0 +1,3159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta charset="utf-8"/>
+    <title>API Documentation</title>
+    <meta name="author" content=""/>
+    <meta name="description" content=""/>
+
+    <link href="../css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/prism.css" rel="stylesheet" media="all"/>
+    <link href="../css/template.css" rel="stylesheet" media="all"/>
+    
+    <!--[if lt IE 9]>
+    <script src="../js/html5.js"></script>
+    <![endif]-->
+    <script src="../js/jquery-1.11.0.min.js"></script>
+    <script src="../js/ui/1.10.4/jquery-ui.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/jquery.smooth-scroll.js"></script>
+    <script src="../js/prism.min.js"></script>
+    <!-- TODO: Add http://jscrollpane.kelvinluck.com/ to style the scrollbars for browsers not using webkit-->
+    <script type="text/javascript">
+    function loadExternalCodeSnippets() {
+        Array.prototype.slice.call(document.querySelectorAll('pre[data-src]')).forEach(function (pre) {
+            var src = pre.getAttribute('data-src');
+            var extension = (src.match(/\.(\w+)$/) || [, ''])[1];
+            var language = 'php';
+
+            var code = document.createElement('code');
+            code.className = 'language-' + language;
+
+            pre.textContent = '';
+
+            code.textContent = 'Loading…';
+
+            pre.appendChild(code);
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('GET', src, true);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+
+                    if (xhr.status < 400 && xhr.responseText) {
+                        code.textContent = xhr.responseText;
+
+                        Prism.highlightElement(code);
+                    }
+                    else if (xhr.status >= 400) {
+                        code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
+                    }
+                    else {
+                        code.textContent = '✖ Error: File does not exist or is empty';
+                    }
+                }
+            };
+
+            xhr.send(null);
+        });
+    }
+
+    $(document).ready(function(){
+        loadExternalCodeSnippets();
+    });
+    $('#source-view').on('shown', function () {
+        loadExternalCodeSnippets();
+    })
+</script>
+
+    <link rel="shortcut icon" href="../images/favicon.ico"/>
+    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png"/>
+    <link rel="apple-touch-icon" sizes="72x72" href="../images/apple-touch-icon-72x72.png"/>
+    <link rel="apple-touch-icon" sizes="114x114" href="../images/apple-touch-icon-114x114.png"/>
+</head>
+<body>
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <i class="icon-ellipsis-vertical"></i>
+            </a>
+            <a class="brand" href="../index.html">API Documentation</a>
+
+            <div class="nav-collapse">
+                <ul class="nav pull-right">
+                                        <li class="dropdown">
+                        <a href="../index.html" class="dropdown-toggle" data-toggle="dropdown">
+                            API Documentation <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                                                        <li><a href="../namespaces/Greenfly.html">\Greenfly</a></li>
+                                                    </ul>
+                    </li>
+                                        <li class="dropdown" id="charts-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Charts <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../graphs/class.html">
+                                    <i class="icon-list-alt"></i>&#160;Class hierarchy diagram
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="reports-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Reports <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../reports/errors.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">116</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/markers.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">24</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/deprecated.html">
+                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Deprecated <span class="label label-info pull-right">1</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--<div class="go_to_top">-->
+    <!--<a href="#___" style="color: inherit">Back to top&#160;&#160;<i class="icon-upload icon-white"></i></a>-->
+    <!--</div>-->
+</div>
+
+<div id="___" class="container-fluid">
+        <section class="row-fluid">
+        <div class="span2 sidebar">
+                                <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-854229565"></a>
+                                <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
+            </div>
+            <div id="namespace-854229565" class="accordion-body collapse in">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-276898291"></a>
+                                <a href="../namespaces/Greenfly.html" style="margin-left: 30px; padding-left: 0">Greenfly</a>
+            </div>
+            <div id="namespace-276898291" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-2111627081"></a>
+                                <a href="../namespaces/Greenfly.Modules.html" style="margin-left: 30px; padding-left: 0">Modules</a>
+            </div>
+            <div id="namespace-2111627081" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1306026069"></a>
+                                <a href="../namespaces/Greenfly.Modules.Content.html" style="margin-left: 30px; padding-left: 0">Content</a>
+            </div>
+            <div id="namespace-1306026069" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1427045696"></a>
+                                <a href="../namespaces/Greenfly.Modules.Content.Models.html" style="margin-left: 30px; padding-left: 0">Models</a>
+            </div>
+            <div id="namespace-1427045696" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Greenfly.Modules.Content.Models.Content.html">Content</a></li>
+                                                    <li class="class"><a href="../classes/Greenfly.Modules.Content.Models.Tag.html">Tag</a></li>
+                                                    <li class="class"><a href="../classes/Greenfly.Modules.Content.Models.Taxonomy.html">Taxonomy</a></li>
+                                                    <li class="class"><a href="../classes/Greenfly.Modules.Content.Models.Type.html">Type</a></li>
+                                                    <li class="class"><a href="../classes/Greenfly.Modules.Content.Models.Version.html">Version</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Greenfly.Modules.Content.Admin.html">Admin</a></li>
+                                                    <li class="class"><a href="../classes/Greenfly.Modules.Content.Content.html">Content</a></li>
+                                                    <li class="class"><a href="../classes/Greenfly.Modules.Content.Installer.html">Installer</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Greenfly.Modules.Model.html">Model</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1955602267"></a>
+                                <a href="../namespaces/Greenfly.Templates.html" style="margin-left: 30px; padding-left: 0">Templates</a>
+            </div>
+            <div id="namespace-1955602267" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Greenfly.Templates.Content.html">Content</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Greenfly.App.html">App</a></li>
+                                                    <li class="class"><a href="../classes/Greenfly.Database.html">Database</a></li>
+                                                    <li class="class"><a href="../classes/Greenfly.Helpers.html">Helpers</a></li>
+                                                    <li class="class"><a href="../classes/Greenfly.Module.html">Module</a></li>
+                                                    <li class="class"><a href="../classes/Greenfly.Template.html">Template</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        </div>
+    </section>
+    <section class="row-fluid">
+        <div class="span10 offset2">
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <nav>
+                                                <a href="../namespaces/Greenfly.Modules.Content.html">\Greenfly\Modules\Content</a> <i class="icon-level-up"></i>
+                                            </nav>
+                    <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal"><i class="icon-code"></i></a>
+
+                    <h1><small>\Greenfly\Modules\Content</small>Admin</h1>
+                    <p><em>Class Content</em></p>
+                    
+                    
+                                        
+                    <section id="summary">
+                        <h2>Summary</h2>
+                        <section class="row-fluid heading">
+                            <section class="span4">
+                                <a href="#methods">Methods</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#properties">Properties</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#constants">Constants</a>
+                            </section>
+                        </section>
+                        <section class="row-fluid public">
+                            <section class="span4">
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#method___construct" class="">__construct()</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#method_taxonomiesWithTagsAndTypes" class="">taxonomiesWithTagsAndTypes()</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#method_typesWithContentAndTaxonomies" class="">typesWithContentAndTaxonomies()</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#method_contentArchive" class="">contentArchive()</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#method_sections" class="">sections()</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#method_contentByTags" class="">contentByTags()</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#method_getContentByTags" class="">getContentByTags()</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#method_single" class="">single()</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#method_contentWithRelated" class="">contentWithRelated()</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#method_getContentWithRelated" class="">getContentWithRelated()</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#method_getSingleVersion" class="">getSingleVersion()</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#method_contentItemWithAllVersions" class="">contentItemWithAllVersions()</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#method_contentItem" class="">contentItem()</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Admin.html#method_index" class="">index()</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Admin.html#method_getContentsWithVersions" class="">getContentsWithVersions()</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Admin.html#method_editType" class="">editType()</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Admin.html#method_editContent" class="">editContent()</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Admin.html#method_editVersion" class="">editVersion()</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Admin.html#method_updateType" class="">updateType()</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Admin.html#method_updateVersion" class="">updateVersion()</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Admin.html#method_updateContent" class="">updateContent()</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Admin.html#method_removeEmptyDataProperties" class="">removeEmptyDataProperties()</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Admin.html#method_decodeTypeDataJson" class="">decodeTypeDataJson()</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Admin.html#method_encodeTypeDataJson" class="">encodeTypeDataJson()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#property_type" class="">$type</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#property_types" class="">$types</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#property_taxonomy" class="">$taxonomy</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#property_taxonomies" class="">$taxonomies</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#property_taxonomy_name" class="">$taxonomy_name</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#property_offset" class="">$offset</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#property_type_name" class="">$type_name</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#property_content_name" class="">$content_name</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#property_contents" class="">$contents</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#property_params" class="">$params</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#property_sections" class="">$sections</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#property_render" class="">$render</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#property_data" class="">$data</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#property_view" class="">$view</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#property_version" class="">$version</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#property_tag" class="">$tag</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#property_tags" class="">$tags</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#property_type_id" class="">$type_id</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#constant_EXCEPTION_MESSAGE" class="">EXCEPTION_MESSAGE</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#constant_CONFIG_PARAMETERS_KEY" class="">CONFIG_PARAMETERS_KEY</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#constant_SECTIONS_KEY" class="">SECTIONS_KEY</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#constant_RENDER_KEY" class="">RENDER_KEY</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#constant_DATA_KEY" class="">DATA_KEY</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#constant_VIEW_KEY" class="">VIEW_KEY</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#constant_VERSION_KEY" class="">VERSION_KEY</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#constant_SINGLE_TAG_KEY" class="">SINGLE_TAG_KEY</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#constant_PLURAL_TAG_KEY" class="">PLURAL_TAG_KEY</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#constant_PARAMS_KEY" class="">PARAMS_KEY</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#constant_TYPE_ID_KEY" class="">TYPE_ID_KEY</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#constant_NAME_KEY" class="">NAME_KEY</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Admin.html#constant_CONTENTS_KEY" class="">CONTENTS_KEY</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#constant_CONTENT_NAME_KEY" class="">CONTENT_NAME_KEY</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#constant_TYPE_NAME_KEY" class="">TYPE_NAME_KEY</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#constant_TAKE_KEY" class="">TAKE_KEY</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#constant_OFFSET_KEY" class="">OFFSET_KEY</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#constant_TAXONOMY_NAME_KEY" class="">TAXONOMY_NAME_KEY</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#constant_PLURAL_TAXONOMY_KEY" class="">PLURAL_TAXONOMY_KEY</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#constant_SINGLE_TAXONOMY_KEY" class="">SINGLE_TAXONOMY_KEY</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#constant_PLURAL_TYPE_KEY" class="">PLURAL_TYPE_KEY</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Admin.html#constant_SINGLE_TYPE_KEY" class="">SINGLE_TYPE_KEY</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#constant_TYPE_NAME_EXCEPTION_MESSAGE" class="">TYPE_NAME_EXCEPTION_MESSAGE</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#constant_TEMPLATE_KEY" class="">TEMPLATE_KEY</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Admin.html#constant_CONTENT_TYPES_KEY" class="">CONTENT_TYPES_KEY</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Admin.html#constant_CONTENT_TYPE_KEY" class="">CONTENT_TYPE_KEY</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Admin.html#constant_TYPE_DATA_KEY" class="">TYPE_DATA_KEY</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Admin.html#constant_TYPE_PROPERTY_KEY" class="">TYPE_PROPERTY_KEY</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Admin.html#constant_TYPE_DATA_NAME_KEY" class="">TYPE_DATA_NAME_KEY</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Admin.html#constant_VERSIONS_KEY" class="">VERSIONS_KEY</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Admin.html#constant_SINGLE_CONTENT_KEY" class="">SINGLE_CONTENT_KEY</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Admin.html#constant_SINGLE_VERSION_KEY" class="">SINGLE_VERSION_KEY</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Admin.html#constant_ID_KEY" class="">ID_KEY</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Admin.html#constant_CONTENT_ID_KEY" class="">CONTENT_ID_KEY</a><br />
+                                                            </section>
+                        </section>
+                        <section class="row-fluid protected">
+                            <section class="span4">
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#method_setupFromConfig" class="">setupFromConfig()</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#method_setView" class="">setView()</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#method_setTemplate" class="">setTemplate()</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#method_setParams" class="">setParams()</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#method_typeQueryBuilder" class="">typeQueryBuilder()</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#method_renderObjectContent" class="">renderObjectContent()</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#method_renderContent" class="deprecated">renderContent()</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#method_contentQueryBuilder" class="">contentQueryBuilder()</a><br />
+                                                                    <a href="../classes/Greenfly.Modules.Content.Content.html#method_runSection" class="">runSection()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/Greenfly.Module.html#property_views" class="">$views</a><br />
+                                                                    <a href="../classes/Greenfly.Module.html#property_renderer" class="">$renderer</a><br />
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                        <section class="row-fluid private">
+                            <section class="span4">
+                                                                    <em>No private methods found</em>
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No private properties found</em>
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                    </section>
+                </div>
+                <aside class="span4 detailsbar">
+                                        
+                    
+                    <dl>
+                        <dt>File</dt>
+                            <dd><a href="../files/Modules.Content.Admin.html"><div class="path-wrapper">Modules\Content\Admin.php</div></a></dd>
+                                                <dt>Package</dt>
+                            <dd><div class="namespace-wrapper">Default</div></dd>
+                                                <dt>Class hierarchy</dt>
+                            <dd class="hierarchy">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                        <div class="namespace-wrapper"><a href="../classes/Greenfly.Module.html">\Greenfly\Module</a></div>
+                                                                    
+                                        <div class="namespace-wrapper"><a href="../classes/Greenfly.Modules.Content.Content.html">\Greenfly\Modules\Content\Content</a></div>
+                                                                                                    <div class="namespace-wrapper">\Greenfly\Modules\Content\Admin</div>
+                            </dd>
+
+                        
+                        
+                        
+                        
+                                                                        </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                                            <tr><td colspan="2"><em>None found</em></td></tr>
+                                        </table>
+                </aside>
+            </div>
+
+                                    <a id="constants" name="constants"></a>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <h2>Constants</h2>
+                </div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_EXCEPTION_MESSAGE" name="constant_EXCEPTION_MESSAGE" class="anchor"></a>
+            <article id="constant_EXCEPTION_MESSAGE" class="constant">
+                <h3 class="">EXCEPTION_MESSAGE</h3>
+                <pre class="signature">EXCEPTION_MESSAGE</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_CONFIG_PARAMETERS_KEY" name="constant_CONFIG_PARAMETERS_KEY" class="anchor"></a>
+            <article id="constant_CONFIG_PARAMETERS_KEY" class="constant">
+                <h3 class="">CONFIG_PARAMETERS_KEY</h3>
+                <pre class="signature">CONFIG_PARAMETERS_KEY</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_SECTIONS_KEY" name="constant_SECTIONS_KEY" class="anchor"></a>
+            <article id="constant_SECTIONS_KEY" class="constant">
+                <h3 class="">SECTIONS_KEY</h3>
+                <pre class="signature">SECTIONS_KEY</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_RENDER_KEY" name="constant_RENDER_KEY" class="anchor"></a>
+            <article id="constant_RENDER_KEY" class="constant">
+                <h3 class="">RENDER_KEY</h3>
+                <pre class="signature">RENDER_KEY</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_DATA_KEY" name="constant_DATA_KEY" class="anchor"></a>
+            <article id="constant_DATA_KEY" class="constant">
+                <h3 class="">DATA_KEY</h3>
+                <pre class="signature">DATA_KEY</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_VIEW_KEY" name="constant_VIEW_KEY" class="anchor"></a>
+            <article id="constant_VIEW_KEY" class="constant">
+                <h3 class="">VIEW_KEY</h3>
+                <pre class="signature">VIEW_KEY</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_VERSION_KEY" name="constant_VERSION_KEY" class="anchor"></a>
+            <article id="constant_VERSION_KEY" class="constant">
+                <h3 class="">VERSION_KEY</h3>
+                <pre class="signature">VERSION_KEY</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_SINGLE_TAG_KEY" name="constant_SINGLE_TAG_KEY" class="anchor"></a>
+            <article id="constant_SINGLE_TAG_KEY" class="constant">
+                <h3 class="">SINGLE_TAG_KEY</h3>
+                <pre class="signature">SINGLE_TAG_KEY</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_PLURAL_TAG_KEY" name="constant_PLURAL_TAG_KEY" class="anchor"></a>
+            <article id="constant_PLURAL_TAG_KEY" class="constant">
+                <h3 class="">PLURAL_TAG_KEY</h3>
+                <pre class="signature">PLURAL_TAG_KEY</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_PARAMS_KEY" name="constant_PARAMS_KEY" class="anchor"></a>
+            <article id="constant_PARAMS_KEY" class="constant">
+                <h3 class="">PARAMS_KEY</h3>
+                <pre class="signature">PARAMS_KEY</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_TYPE_ID_KEY" name="constant_TYPE_ID_KEY" class="anchor"></a>
+            <article id="constant_TYPE_ID_KEY" class="constant">
+                <h3 class="">TYPE_ID_KEY</h3>
+                <pre class="signature">TYPE_ID_KEY</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_NAME_KEY" name="constant_NAME_KEY" class="anchor"></a>
+            <article id="constant_NAME_KEY" class="constant">
+                <h3 class="">NAME_KEY</h3>
+                <pre class="signature">NAME_KEY</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_CONTENTS_KEY" name="constant_CONTENTS_KEY" class="anchor"></a>
+            <article id="constant_CONTENTS_KEY" class="constant">
+                <h3 class="">CONTENTS_KEY</h3>
+                <pre class="signature">CONTENTS_KEY</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_CONTENT_NAME_KEY" name="constant_CONTENT_NAME_KEY" class="anchor"></a>
+            <article id="constant_CONTENT_NAME_KEY" class="constant">
+                <h3 class="">CONTENT_NAME_KEY</h3>
+                <pre class="signature">CONTENT_NAME_KEY</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_TYPE_NAME_KEY" name="constant_TYPE_NAME_KEY" class="anchor"></a>
+            <article id="constant_TYPE_NAME_KEY" class="constant">
+                <h3 class="">TYPE_NAME_KEY</h3>
+                <pre class="signature">TYPE_NAME_KEY</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_TAKE_KEY" name="constant_TAKE_KEY" class="anchor"></a>
+            <article id="constant_TAKE_KEY" class="constant">
+                <h3 class="">TAKE_KEY</h3>
+                <pre class="signature">TAKE_KEY</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_OFFSET_KEY" name="constant_OFFSET_KEY" class="anchor"></a>
+            <article id="constant_OFFSET_KEY" class="constant">
+                <h3 class="">OFFSET_KEY</h3>
+                <pre class="signature">OFFSET_KEY</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_TAXONOMY_NAME_KEY" name="constant_TAXONOMY_NAME_KEY" class="anchor"></a>
+            <article id="constant_TAXONOMY_NAME_KEY" class="constant">
+                <h3 class="">TAXONOMY_NAME_KEY</h3>
+                <pre class="signature">TAXONOMY_NAME_KEY</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_PLURAL_TAXONOMY_KEY" name="constant_PLURAL_TAXONOMY_KEY" class="anchor"></a>
+            <article id="constant_PLURAL_TAXONOMY_KEY" class="constant">
+                <h3 class="">PLURAL_TAXONOMY_KEY</h3>
+                <pre class="signature">PLURAL_TAXONOMY_KEY</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_SINGLE_TAXONOMY_KEY" name="constant_SINGLE_TAXONOMY_KEY" class="anchor"></a>
+            <article id="constant_SINGLE_TAXONOMY_KEY" class="constant">
+                <h3 class="">SINGLE_TAXONOMY_KEY</h3>
+                <pre class="signature">SINGLE_TAXONOMY_KEY</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_PLURAL_TYPE_KEY" name="constant_PLURAL_TYPE_KEY" class="anchor"></a>
+            <article id="constant_PLURAL_TYPE_KEY" class="constant">
+                <h3 class="">PLURAL_TYPE_KEY</h3>
+                <pre class="signature">PLURAL_TYPE_KEY</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_SINGLE_TYPE_KEY" name="constant_SINGLE_TYPE_KEY" class="anchor"></a>
+            <article id="constant_SINGLE_TYPE_KEY" class="constant">
+                <h3 class="">SINGLE_TYPE_KEY</h3>
+                <pre class="signature">SINGLE_TYPE_KEY</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_TYPE_NAME_EXCEPTION_MESSAGE" name="constant_TYPE_NAME_EXCEPTION_MESSAGE" class="anchor"></a>
+            <article id="constant_TYPE_NAME_EXCEPTION_MESSAGE" class="constant">
+                <h3 class="">TYPE_NAME_EXCEPTION_MESSAGE</h3>
+                <pre class="signature">TYPE_NAME_EXCEPTION_MESSAGE</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_TEMPLATE_KEY" name="constant_TEMPLATE_KEY" class="anchor"></a>
+            <article id="constant_TEMPLATE_KEY" class="constant">
+                <h3 class="">TEMPLATE_KEY</h3>
+                <pre class="signature">TEMPLATE_KEY</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_CONTENT_TYPES_KEY" name="constant_CONTENT_TYPES_KEY" class="anchor"></a>
+            <article id="constant_CONTENT_TYPES_KEY" class="constant">
+                <h3 class="">CONTENT_TYPES_KEY</h3>
+                <pre class="signature">CONTENT_TYPES_KEY</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_CONTENT_TYPE_KEY" name="constant_CONTENT_TYPE_KEY" class="anchor"></a>
+            <article id="constant_CONTENT_TYPE_KEY" class="constant">
+                <h3 class="">CONTENT_TYPE_KEY</h3>
+                <pre class="signature">CONTENT_TYPE_KEY</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_TYPE_DATA_KEY" name="constant_TYPE_DATA_KEY" class="anchor"></a>
+            <article id="constant_TYPE_DATA_KEY" class="constant">
+                <h3 class="">TYPE_DATA_KEY</h3>
+                <pre class="signature">TYPE_DATA_KEY</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_TYPE_PROPERTY_KEY" name="constant_TYPE_PROPERTY_KEY" class="anchor"></a>
+            <article id="constant_TYPE_PROPERTY_KEY" class="constant">
+                <h3 class="">TYPE_PROPERTY_KEY</h3>
+                <pre class="signature">TYPE_PROPERTY_KEY</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_TYPE_DATA_NAME_KEY" name="constant_TYPE_DATA_NAME_KEY" class="anchor"></a>
+            <article id="constant_TYPE_DATA_NAME_KEY" class="constant">
+                <h3 class="">TYPE_DATA_NAME_KEY</h3>
+                <pre class="signature">TYPE_DATA_NAME_KEY</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_VERSIONS_KEY" name="constant_VERSIONS_KEY" class="anchor"></a>
+            <article id="constant_VERSIONS_KEY" class="constant">
+                <h3 class="">VERSIONS_KEY</h3>
+                <pre class="signature">VERSIONS_KEY</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_SINGLE_CONTENT_KEY" name="constant_SINGLE_CONTENT_KEY" class="anchor"></a>
+            <article id="constant_SINGLE_CONTENT_KEY" class="constant">
+                <h3 class="">SINGLE_CONTENT_KEY</h3>
+                <pre class="signature">SINGLE_CONTENT_KEY</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_SINGLE_VERSION_KEY" name="constant_SINGLE_VERSION_KEY" class="anchor"></a>
+            <article id="constant_SINGLE_VERSION_KEY" class="constant">
+                <h3 class="">SINGLE_VERSION_KEY</h3>
+                <pre class="signature">SINGLE_VERSION_KEY</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_ID_KEY" name="constant_ID_KEY" class="anchor"></a>
+            <article id="constant_ID_KEY" class="constant">
+                <h3 class="">ID_KEY</h3>
+                <pre class="signature">ID_KEY</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_CONTENT_ID_KEY" name="constant_CONTENT_ID_KEY" class="anchor"></a>
+            <article id="constant_CONTENT_ID_KEY" class="constant">
+                <h3 class="">CONTENT_ID_KEY</h3>
+                <pre class="signature">CONTENT_ID_KEY</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                            
+                                    <a id="properties" name="properties"></a>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <h2>Properties</h2>
+                </div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_type" name="property_type" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$type</h3>
+                <pre class="signature">$type : </pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_types" name="property_types" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$types</h3>
+                <pre class="signature">$types : </pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_taxonomy" name="property_taxonomy" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$taxonomy</h3>
+                <pre class="signature">$taxonomy : </pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_taxonomies" name="property_taxonomies" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$taxonomies</h3>
+                <pre class="signature">$taxonomies : </pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_taxonomy_name" name="property_taxonomy_name" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$taxonomy_name</h3>
+                <pre class="signature">$taxonomy_name : </pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_offset" name="property_offset" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$offset</h3>
+                <pre class="signature">$offset : </pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_type_name" name="property_type_name" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$type_name</h3>
+                <pre class="signature">$type_name : </pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_content_name" name="property_content_name" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$content_name</h3>
+                <pre class="signature">$content_name : </pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_contents" name="property_contents" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$contents</h3>
+                <pre class="signature">$contents : </pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_params" name="property_params" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$params</h3>
+                <pre class="signature">$params : </pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_sections" name="property_sections" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$sections</h3>
+                <pre class="signature">$sections : </pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_render" name="property_render" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$render</h3>
+                <pre class="signature">$render : </pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_data" name="property_data" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$data</h3>
+                <pre class="signature">$data : </pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_view" name="property_view" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$view</h3>
+                <pre class="signature">$view : </pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_version" name="property_version" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$version</h3>
+                <pre class="signature">$version : </pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_tag" name="property_tag" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$tag</h3>
+                <pre class="signature">$tag : </pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_tags" name="property_tags" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$tags</h3>
+                <pre class="signature">$tags : </pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_type_id" name="property_type_id" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$type_id</h3>
+                <pre class="signature">$type_id : </pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_views" name="property_views" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$views</h3>
+                <pre class="signature">$views : </pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Module.html"><div class="path-wrapper">\Greenfly\Module</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_renderer" name="property_renderer" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$renderer</h3>
+                <pre class="signature">$renderer : </pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Module.html"><div class="path-wrapper">\Greenfly\Module</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                            
+                                    <a id="methods" name="methods"></a>
+            <div class="row-fluid">
+                <div class="span8 content class"><h2>Methods</h2></div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method___construct" name="method___construct" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">__construct()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">__construct(array  <span class="argument">$config = array()</span>) </pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array</td>
+                                <td>$config </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                                                            <p>add documentation.</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_taxonomiesWithTagsAndTypes" name="method_taxonomiesWithTagsAndTypes" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">taxonomiesWithTagsAndTypes()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">taxonomiesWithTagsAndTypes(array  <span class="argument">$config</span>) </pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array</td>
+                                <td>$config </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                                                            <p>add documentation.</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_typesWithContentAndTaxonomies" name="method_typesWithContentAndTaxonomies" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">typesWithContentAndTaxonomies()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">typesWithContentAndTaxonomies(array  <span class="argument">$config</span>) </pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array</td>
+                                <td>$config </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Symfony\Component\Config\Definition\Exception</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                                                            <p>add documentation.</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_contentArchive" name="method_contentArchive" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">contentArchive()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">contentArchive(array  <span class="argument">$config</span>) </pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array</td>
+                                <td>$config </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                                                            <p>add documentation.</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_sections" name="method_sections" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">sections()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">sections(array  <span class="argument">$config</span>) </pre>
+                <p><em>Good for custom pages with different needs. May be cumbersome on resources.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array</td>
+                                <td>$config </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            paaram
+                        </th>
+                        <td>
+                                                                                            <p>array [static::SECTIONS_KEY] each section can contain its own callback or render.</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                                                            <p>add documentation.</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_contentByTags" name="method_contentByTags" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">contentByTags()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">contentByTags(array  <span class="argument">$config</span>) </pre>
+                <p><em>get content based on tags and render through template view.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array</td>
+                                <td>$config </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                                                            <p>refactor method to use new renderObjectContent instead of deprecated renderContent.</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getContentByTags" name="method_getContentByTags" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getContentByTags()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getContentByTags(  <span class="argument">$config</span>) : array</pre>
+                <p><em>When you want to get content based on tags and return as array</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$config </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    array
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                                                            <p>refactor method to use new renderObjectContent instead of deprecated renderContent.</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_single" name="method_single" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">single()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">single(array  <span class="argument">$config</span>) </pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array</td>
+                                <td>$config </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                                                            <p>refactor method to use new renderObjectContent instead of deprecated renderContent.</p>
+                                                                                            <p>add documentation.</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_contentWithRelated" name="method_contentWithRelated" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">contentWithRelated()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">contentWithRelated(array  <span class="argument">$config</span>) </pre>
+                <p><em>When you want to get a content piece with related item via static method.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array</td>
+                                <td>$config </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                                                            <p>refactor method to use new renderObjectContent instead of deprecated renderContent</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getContentWithRelated" name="method_getContentWithRelated" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getContentWithRelated()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getContentWithRelated(string  <span class="argument">$contentName</span>, string  <span class="argument">$typeName = &#039;&#039;</span>, integer  <span class="argument">$take = null</span>,   <span class="argument">$offset = null</span>) : array</pre>
+                <p><em>get content with related content.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$contentName </td>
+                                <td><p>the name of the primary content to pull</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$typeName </td>
+                                <td><p>set the type of content for related content</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$take </td>
+                                <td><p>get a limited amount of related items to pull</p></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$offset </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                                                            <p>refactor method to use new renderObjectContent instead of deprecated renderContent.</p>
+                                                                                            <p>refactor to use specific parameters instead of config array.</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getSingleVersion" name="method_getSingleVersion" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getSingleVersion()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getSingleVersion(  <span class="argument">$config</span>) : array</pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$config </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                                                            <p>refactor method to use new renderObjectContent instead of deprecated renderContent</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_contentItemWithAllVersions" name="method_contentItemWithAllVersions" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">contentItemWithAllVersions()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">contentItemWithAllVersions(  <span class="argument">$config</span>) </pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$config </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                                                            <p>refactor method to use new renderObjectContent instead of deprecated renderContent</p>
+                                                                                            <p>add documentation</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_contentItem" name="method_contentItem" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">contentItem()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">contentItem(  <span class="argument">$config</span>) </pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$config </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                                                            <p>refactor method to use new renderObjectContent instead of deprecated renderContent</p>
+                                                                                            <p>add documentation</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_index" name="method_index" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">index()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">index() </pre>
+                <p><em></em></p>
+                
+
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getContentsWithVersions" name="method_getContentsWithVersions" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getContentsWithVersions()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getContentsWithVersions() </pre>
+                <p><em></em></p>
+                
+
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_editType" name="method_editType" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">editType()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">editType(  <span class="argument">$id</span>) </pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$id </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_editContent" name="method_editContent" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">editContent()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">editContent(  <span class="argument">$id</span>) </pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$id </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_editVersion" name="method_editVersion" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">editVersion()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">editVersion(array  <span class="argument">$details</span>) </pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array</td>
+                                <td>$details </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_updateType" name="method_updateType" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">updateType()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">updateType(array  <span class="argument">$values</span>) </pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array</td>
+                                <td>$values </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_updateVersion" name="method_updateVersion" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">updateVersion()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">updateVersion(array  <span class="argument">$values</span>) </pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array</td>
+                                <td>$values </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_updateContent" name="method_updateContent" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">updateContent()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">updateContent(array  <span class="argument">$content</span>) </pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array</td>
+                                <td>$content </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_removeEmptyDataProperties" name="method_removeEmptyDataProperties" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">removeEmptyDataProperties()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">removeEmptyDataProperties(  <span class="argument">$content</span>) </pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$content </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_decodeTypeDataJson" name="method_decodeTypeDataJson" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">decodeTypeDataJson()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">decodeTypeDataJson(  <span class="argument">$content</span>) </pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$content </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_encodeTypeDataJson" name="method_encodeTypeDataJson" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">encodeTypeDataJson()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">encodeTypeDataJson(array  <span class="argument">$values</span>) </pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array</td>
+                                <td>$values </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setupFromConfig" name="method_setupFromConfig" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected ">setupFromConfig()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setupFromConfig(array  <span class="argument">$config</span>) </pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array</td>
+                                <td>$config </td>
+                                <td><p>the options to run the desired content callback methods.</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                                                            <p>add documentation.</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setView" name="method_setView" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected ">setView()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setView(string  <span class="argument">$view</span>) </pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$view </td>
+                                <td><p>the view file to render.</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setTemplate" name="method_setTemplate" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected ">setTemplate()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setTemplate(\Greenfly\Template  <span class="argument">$template</span>) </pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td><a href="../classes/Greenfly.Template.html">\Greenfly\Template</a></td>
+                                <td>$template </td>
+                                <td><p>the template engine to render</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setParams" name="method_setParams" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected ">setParams()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setParams(array  <span class="argument">$params</span>) </pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array</td>
+                                <td>$params </td>
+                                <td><p>the parameters that the method &amp; view need in order to render.</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_typeQueryBuilder" name="method_typeQueryBuilder" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected ">typeQueryBuilder()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">typeQueryBuilder(string  <span class="argument">$types = &#039;&#039;</span>, null  <span class="argument">$take = null</span>, null  <span class="argument">$offset = null</span>) : \Illuminate\Database\Eloquent\Collection|static|array&lt;mixed,static&gt;</pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$types </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>null</td>
+                                <td>$take </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>null</td>
+                                <td>$offset </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Symfony\Component\Config\Definition\Exception</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    \Illuminate\Database\Eloquent\Collection|static|array&lt;mixed,static&gt;
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                                                            <p>May need to refactor out. I don't like this method but couldn't figure out a better way to handle.</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_renderObjectContent" name="method_renderObjectContent" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected ">renderObjectContent()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">renderObjectContent() </pre>
+                <p><em>Method to echo view response via the class.</em></p>
+                
+
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_renderContent" name="method_renderContent" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected deprecated">renderContent()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">renderContent(array  <span class="argument">$config</span>) </pre>
+                <p><em>renders content from config array.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array</td>
+                                <td>$config </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                                <aside class="alert alert-block alert-error">
+                    <h4>Deprecated</h4>
+                    Preferred method to render is renderObjectContent.
+                </aside>
+                        <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_contentQueryBuilder" name="method_contentQueryBuilder" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected ">contentQueryBuilder()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">contentQueryBuilder(string  <span class="argument">$typeName = &#039;&#039;</span>, null  <span class="argument">$take = null</span>, string  <span class="argument">$offset = &#039;&#039;</span>) : \Illuminate\Database\Eloquent\Collection|static|array&lt;mixed,static&gt;</pre>
+                <p><em>build a query for the content.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$typeName </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>null</td>
+                                <td>$take </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$offset </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    \Illuminate\Database\Eloquent\Collection|static|array&lt;mixed,static&gt;
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                                                            <p>may refactor out method as this isn't preferred but couldn't find a better way to handle.</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_runSection" name="method_runSection" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected ">runSection()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">runSection(mixed  <span class="argument">$content</span>, \Greenfly\Template  <span class="argument">$template</span>, array  <span class="argument">$additionalVars = array()</span>) </pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>mixed</td>
+                                <td>$content </td>
+                                <td><p>add necessary config to run the section. Can be string to the view file, an array with callback or able to renderData.</p></td>
+                            </tr>
+                                                    <tr>
+                                <td><a href="../classes/Greenfly.Template.html">\Greenfly\Template</a></td>
+                                <td>$template </td>
+                                <td><p>add template in order to render the section</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>array</td>
+                                <td>$additionalVars </td>
+                                <td><p>when you need to add additional variables to send to view file.</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Greenfly.Modules.Content.Content.html"><div class="path-wrapper">\Greenfly\Modules\Content\Content</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                                                            <p>add documentation.</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                    </div>
+    </section>
+
+    <div id="source-view" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="source-view-label" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="source-view-label">Admin.php</h3>
+        </div>
+        <div class="modal-body">
+            <pre data-src="../files/Modules\Content\Admin.php.txt" class="language-php line-numbers"></pre>
+        </div>
+    </div>
+
+    <footer class="row-fluid">
+        <section class="span10 offset2">
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <section class="row-fluid footer-sections">
+                        <section class="span4">
+                                                        <h1><i class="icon-code"></i></h1>
+                            <div>
+                                <ul>
+                                                                            <li><a href="../namespaces/Greenfly.html">\Greenfly</a></li>
+                                                                    </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-bar-chart"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../graphs/class.html">Class Hierarchy Diagram</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-pushpin"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../reports/errors.html">Errors</a></li>
+                                    <li><a href="../reports/markers.html">Markers</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                    </section>
+                </section>
+            </section>
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <hr />
+                    Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
+                    on August 12th, 2015 at 20:05.
+                </section>
+            </section>
+        </section>
+    </footer>
+</div>
+
+</body>
+</html>

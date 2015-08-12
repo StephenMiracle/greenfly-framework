@@ -10,7 +10,7 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 
 
 
-trait Database
+class Database
 
 {
 
@@ -30,4 +30,5 @@ trait Database
     }
 
 }
+
 

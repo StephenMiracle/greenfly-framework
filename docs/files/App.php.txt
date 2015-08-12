@@ -21,9 +21,6 @@ class App
 
 
 
-    use Helpers;
-
-    use Database;
 
     const DATABASE_CONFIG_KEY = 'database';
 
@@ -110,7 +107,7 @@ class App
         }
 
 
-        $this->connect($config[static::SITE_CONFIG_KEY][static::DATABASE_CONFIG_KEY]);
+        Database::connect($config[static::SITE_CONFIG_KEY][static::DATABASE_CONFIG_KEY]);
 
         $this->template = new Template($config[static::SITE_CONFIG_KEY][static::THEME_DIRECTORY_KEY], $config[static::SITE_CONFIG_KEY][static::CACHE_DIRECTORY_KEY]);
 
@@ -276,7 +273,7 @@ class App
             }
 
 
-            $this->connectArrays($content[static::CONFIG_KEY][static::PARAMS_KEY], [$this->siteVariables, $httpParams, $params]);
+            Helpers::connectArrays($content[static::CONFIG_KEY][static::PARAMS_KEY], [$this->siteVariables, $httpParams, $params]);
 
 
             $content[static::CONFIG_KEY][static::TEMPLATE_KEY] = $this->template;
@@ -292,7 +289,7 @@ class App
             $params = [];
 
 
-            $this->connectArrays($params, [$this->siteVariables, $httpParams]);
+            Helpers::connectArrays($params, [$this->siteVariables, $httpParams]);
 
             echo $this->template->render($content, $params);
 
@@ -323,7 +320,7 @@ class App
 
         $params = [];
 
-        $this->connectArrays($params, $additionalVars);
+        Helpers::connectArrays($params, $additionalVars);
 
         echo $template->render($view, $params);
 
@@ -437,3 +434,4 @@ class App
     }
 
 }
+

@@ -9,7 +9,6 @@ namespace Greenfly\Modules\Content;
 
 
 use Greenfly\Helpers;
-
 use Greenfly\Module;
 
 use Greenfly\Modules\Content\Models\Content as ContentModel;
@@ -39,7 +38,7 @@ class Content extends Module
 
 {
 
-    use Helpers;
+
 
     const EXCEPTION_MESSAGE = 'Caught Exception: ';
 
@@ -174,7 +173,7 @@ class Content extends Module
     {
 
 
-        $this->setParams($this->connectArrays($config[static::PARAMS_KEY], [$config[static::RENDER_KEY][static::DATA_KEY]]));
+        $this->setParams(Helpers::connectArrays($config[static::PARAMS_KEY], [$config[static::RENDER_KEY][static::DATA_KEY]]));
 
         $this->setTemplate($config[static::TEMPLATE_KEY]);
 
@@ -477,7 +476,7 @@ class Content extends Module
         try {
 
 
-            $params = $this->connectArrays($config[static::PARAMS_KEY], [$config[static::RENDER_KEY][static::DATA_KEY]]);
+            $params = Helpers::connectArrays($config[static::PARAMS_KEY], [$config[static::RENDER_KEY][static::DATA_KEY]]);
 
             echo $config[static::TEMPLATE_KEY]->render($config[static::RENDER_KEY][static::VIEW_KEY], $params);
 
@@ -637,7 +636,7 @@ class Content extends Module
 
         $class = new Static();
 
-        $params = $class->connectArrays($config[static::PARAMS_KEY], [$config[static::RENDER_KEY][static::DATA_KEY], $class->getContentByTags($config)]);
+        $params = Helpers::connectArrays($config[static::PARAMS_KEY], [$config[static::RENDER_KEY][static::DATA_KEY], $class->getContentByTags($config)]);
 
         echo $config[static::TEMPLATE_KEY]->render($config[static::RENDER_KEY][static::VIEW_KEY], $params);
 
@@ -707,7 +706,7 @@ class Content extends Module
 
         $class = new Static();
 
-        $params = $class->connectArrays($config[static::PARAMS_KEY], [$config[static::RENDER_KEY][static::DATA_KEY], $class->getSingleVersion($config)]);
+        $params = Helpers::connectArrays($config[static::PARAMS_KEY], [$config[static::RENDER_KEY][static::DATA_KEY], $class->getSingleVersion($config)]);
 
         echo $config[static::TEMPLATE_KEY]->render($config[static::RENDER_KEY][static::VIEW_KEY], $params);
 
@@ -741,7 +740,7 @@ class Content extends Module
 
         $content = $class->getContentWithRelated($class->params[static::CONTENT_NAME_KEY], $typeName, $take, $offset);
 
-        $params = $class->connectArrays($config[static::PARAMS_KEY], [$config[static::RENDER_KEY][static::DATA_KEY], $content]);
+        $params = Helpers::connectArrays($config[static::PARAMS_KEY], [$config[static::RENDER_KEY][static::DATA_KEY], $content]);
 
         echo $config[static::TEMPLATE_KEY]->render($config[static::RENDER_KEY][static::VIEW_KEY], $params);
 
