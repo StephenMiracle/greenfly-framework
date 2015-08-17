@@ -35,7 +35,7 @@ use Greenfly\Template;
  *
  * @todo refactor out unnecessary variables and constants.
  */
-class Content extends Module
+class Content
 
 {
 
@@ -88,6 +88,10 @@ class Content extends Module
     const TYPE_NAME_EXCEPTION_MESSAGE = 'Parameter "<strong>type_name</strong>" must be either a string or an array';
 
     const TEMPLATE_KEY = 'template';
+
+    const CONFIG_CALLBACK_KEY = 'callback';
+
+    const CONFIG_KEY = 'config';
 
 
 
@@ -558,8 +562,7 @@ class Content extends Module
 
             try {
 
-
-                $class->runSection($content, $config[static::TEMPLATE_KEY], $config[static::PARAMS_KEY]);
+                $class->runContent($content, $config[static::TEMPLATE_KEY], $config[static::PARAMS_KEY]);
 
 
 
@@ -574,47 +577,6 @@ class Content extends Module
 
         }
 
-
-
-    }
-
-
-    /**
-     * @param mixed $content  add necessary config to run the section. Can be string to the view file, an array with callback or able to renderData.
-     * @param Template $template add template in order to render the section
-     * @param array $additionalVars when you need to add additional variables to send to view file.
-     *
-     * @todo add documentation.
-     *
-     */
-    protected function runSection ($content, Template $template, array $additionalVars = [])
-
-    {
-
-
-        if (is_string($content)) {
-
-
-            echo $template->render($content, $additionalVars);
-
-
-        } elseif (isset($content[static::CONFIG_CALLBACK_KEY])) {
-
-
-            $content[static::CONFIG_KEY][static::TEMPLATE_KEY] = $template;
-
-            $content[static::CONFIG_KEY][static::PARAMS_KEY] = array_merge($content[static::CONFIG_KEY][static::PARAMS_KEY], $additionalVars);
-
-            call_user_func($content[static::CONFIG_CALLBACK_KEY], $content[static::CONFIG_KEY]);
-
-
-        } elseif (isset($content[static::RENDER_WITH_DATA_KEY])) {
-
-
-            $this->renderWithData($content, $template, [$additionalVars, $content[static::RENDER_WITH_DATA_KEY]]);
-
-
-        }
 
 
     }
@@ -738,7 +700,6 @@ class Content extends Module
 
         $typeName = isset ($class->params[static::TYPE_NAME_KEY]) ? $class->params[static::TYPE_NAME_KEY] : '';
 
-
         $content = $class->getContentWithRelated($class->params[static::CONTENT_NAME_KEY], $typeName, $take, $offset);
 
         $params = $class->connectArrays($config[static::PARAMS_KEY], [$config[static::RENDER_KEY][static::DATA_KEY], $content]);
@@ -794,10 +755,12 @@ class Content extends Module
         foreach ($tags as $tag) {
 
 
-            $tag->getContentWithVersion($contentName, $typeName, $take, $offset);
+
+            $tag->getContentWithVersion($typeName, $take, $offset, $contentName);
 
 
         }
+
 
 
         $version = $contentPiece->latestVersion();

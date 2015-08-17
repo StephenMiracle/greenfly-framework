@@ -101,11 +101,11 @@ class Tag extends Model
 
 
 
-    public function getContentWithVersion($currentContentName = '', $TypeName = '', $take = null, $offset = null)
+    public function getContentWithVersion($TypeName = '', $take = null, $offset = null, $excludedContent = '')
 
     {
 
-        $this->currentContentName = $currentContentName;
+        $this->currentContentName = $excludedContent;
 
         $this->typeName = $TypeName;
 
@@ -116,15 +116,19 @@ class Tag extends Model
         $contents = $this->getContents();
 
 
-        foreach ($contents as $content) {
+        foreach ($contents as $key => $content) {
 
-            $content->version = $content->latestVersion();
-            dd($content->toArray());
+
+            $content->attributes['version'] = $content->latestVersion();
+
+
         }
 
 
+        $this->attributes['contents'] = $contents;
 
-        return $contents;
+
+        return $this;
 
 
     }
@@ -164,7 +168,7 @@ class Tag extends Model
         $contentQuery->orderBy('published_date', 'DESC');
 
 
-        return $contentQuery;
+        return $contentQuery->get();
 
 
     }

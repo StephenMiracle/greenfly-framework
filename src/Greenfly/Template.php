@@ -1,18 +1,5 @@
 <?php
 
-/**
-
- * Created by PhpStorm.
-
- * User: scraig
-
- * Date: 7/1/2015
-
- * Time: 12:19 AM
-
- */
-
-
 
 namespace Greenfly;
 
@@ -59,7 +46,15 @@ class Template {
     }
 
 
-
+    /**
+     * return the content with the view and data.
+     *
+     * @param string $view the theme file to display.
+     *
+     * @param array $params
+     *
+     * @return string
+     */
     public function render($view, array $params = [])
 
     {

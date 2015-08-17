@@ -309,26 +309,6 @@ class App
     }
 
 
-    /**
-     * render a file with additional variables without having to use a callback. Useful when you  know the specific variables you'd like pass.
-     *
-     * @param string $view
-     * @param template $template
-     * @param array $additionalVars
-     */
-    protected function renderWithData($view, template $template, array $additionalVars = [])
-
-    {
-
-
-        $params = [];
-
-        $this->connectArrays($params, $additionalVars);
-
-        echo $template->render($view, $params);
-
-
-    }
 
 
     /**
@@ -345,7 +325,11 @@ class App
         $this->route->get($route, function ($router) use ($content) {
 
 
-            return $this->runRoute($content, $router->request()->getQuery()->toArray(), $router->params()->getParams());
+            $array = [];
+
+
+            $this->runContent($content, $this->template, $this->connectArrays($array, [$router->request()->getQuery()->toArray(), $router->params()->getParams(), $this->siteVariables]));
+
 
 
         });

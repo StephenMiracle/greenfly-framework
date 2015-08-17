@@ -103,12 +103,10 @@ class Content extends Model
     }
 
 
-
-
     /**
-     * returns the latest version of a content piece as an array.
+     * @param array $fields
      *
-     * @return array
+     * @return mixed
      */
     public function latestVersion(array $fields = [])
 
@@ -129,7 +127,8 @@ class Content extends Model
 
 
 
-        $version['data'] = json_decode($version['data']);
+        $version['data'] = json_decode($version['data'], true);
+
 
         return $version;
 
