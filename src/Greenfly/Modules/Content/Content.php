@@ -93,6 +93,8 @@ class Content
 
     const CONFIG_KEY = 'config';
 
+    const SHUFFLE_KEY = 'shuffle';
+
 
 
     public $type;
@@ -404,11 +406,13 @@ class Content
 
         $typeName = isset($class->params[static::TYPE_NAME_KEY]) ? $class->params[static::TYPE_NAME_KEY] : '';
 
-        $take = isset($class->params[static::TAKE_KEY]) ? $class->params[static::TAKE_KEY] : null;
+        $take = isset($class->params[static::TAKE_KEY]) ? $class->params[static::TAKE_KEY] : 0;
 
-        $offset = isset($class->params[static::OFFSET_KEY]) ? $class->params[static::OFFSET_KEY] : null;
+        $offset = isset($class->params[static::OFFSET_KEY]) ? $class->params[static::OFFSET_KEY] : 0;
 
-        $contentQuery = $class->contentQueryBuilder($typeName, $take, $offset);
+        $shuffle = isset($class->params[static::SHUFFLE_KEY]) ? $class->params[static::SHUFFLE_KEY] : 0;
+
+        $contentQuery = $class->contentQueryBuilder($typeName, $take, $offset, $shuffle);
 
 
         foreach ($contentQuery as $content) {
@@ -418,7 +422,7 @@ class Content
 
 
                 $content->tags;
-                $content->versions = $content->versions()->toArray();
+                $content->version = $content->versions()->first()->toArray();
 
 
             } catch (\Exception $e) {
@@ -502,13 +506,14 @@ class Content
      * build a query for the content.
      *
      * @param string $typeName
-     * @param null $take
-     * @param string $offset
+     * @param int $take
+     * @param int $offset
+     * @param bool $shuffle
      * @return \Illuminate\Database\Eloquent\Collection|static|static[]
      *
      * @todo may refactor out method as this isn't preferred but couldn't find a better way to handle.
      */
-    protected function contentQueryBuilder ($typeName = '', $take = null, $offset = '')
+    protected function contentQueryBuilder (array $typeName = [], $take = 0, $offset = 0, $shuffle = null)
 
     {
 
@@ -519,19 +524,50 @@ class Content
         if (!empty($typeName)) {
 
 
-            $contentQuery = $contentQuery->where(static::TYPE_NAME_KEY, $typeName);
+            foreach ($typeName as $type) {
+
+
+                $contentQuery = ContentModel::where(static::TYPE_NAME_KEY, $type);
+
+
+                if ($take) {
+
+
+                    $contentQuery = $contentQuery->take($take);
+
+
+                }
+
+
+                if ($offset) {
+
+
+                    $contentQuery = $contentQuery->offset($offset);
+
+
+                }
+
+
+
+                $contentQuery = $contentQuery->get();
+
+
+            }
+
+
+            if ($shuffle) {
+
+
+                $contentQuery = $contentQuery->shuffle();
+
+
+            }
+
 
 
         }
 
 
-        if ($take) {
-
-
-            $contentQuery = $contentQuery->take($take);
-
-
-        }
 
 
         return $contentQuery;
@@ -624,28 +660,58 @@ class Content
         $vars = [];
 
 
+        if (isset($config[static::PARAMS_KEY][static::NAME_KEY])) {
 
-        foreach ($config[static::PARAMS_KEY][static::PLURAL_TAG_KEY] as $tagSelector) {
 
-            $tag = TagModel::where(static::NAME_KEY, $tagSelector[static::NAME_KEY])->first();
-
+            $tag = TagModel::where(static::NAME_KEY, $config[static::PARAMS_KEY][static::NAME_KEY])->first();
 
 
             if (isset($config[static::PARAMS_KEY]['take'])) {
 
+
                 $tag->take = $config[static::PARAMS_KEY]['take'];
+
 
             }
 
 
+            $tag->contents = $tag->getContents()->toArray();
 
-            $content = $tag->contents;
 
             $vars[static::SINGLE_TAG_KEY] = $tag->toArray();
 
             VersionModel::AttachlatestActive($vars[static::SINGLE_TAG_KEY][static::CONTENTS_KEY]);
 
-        } 
+
+        } else {
+
+
+            foreach ($config[static::PARAMS_KEY][static::PLURAL_TAG_KEY] as $tagSelector) {
+
+
+                $tag = TagModel::where(static::NAME_KEY, $tagSelector[static::NAME_KEY])->first();
+
+
+                if (isset($config[static::PARAMS_KEY]['take'])) {
+
+
+                    $tag->take = $config[static::PARAMS_KEY]['take'];
+
+
+                }
+
+
+                $content = $tag->contents;
+
+                $vars[static::SINGLE_TAG_KEY] = $tag->toArray();
+
+                VersionModel::AttachlatestActive($vars[static::SINGLE_TAG_KEY][static::CONTENTS_KEY]);
+
+            }
+
+        }
+
+
 
 
 
@@ -700,7 +766,9 @@ class Content
 
         $typeName = isset ($class->params[static::TYPE_NAME_KEY]) ? $class->params[static::TYPE_NAME_KEY] : '';
 
-        $content = $class->getContentWithRelated($class->params[static::CONTENT_NAME_KEY], $typeName, $take, $offset);
+        $shuffle = isset ($class->params[static::SHUFFLE_KEY]) ? $class->params[static::SHUFFLE_KEY] : null;
+
+        $content = $class->getContentWithRelated($class->params[static::CONTENT_NAME_KEY], $typeName, $take, $offset, $shuffle);
 
         $params = $class->connectArrays($config[static::PARAMS_KEY], [$config[static::RENDER_KEY][static::DATA_KEY], $content]);
 
@@ -723,13 +791,15 @@ class Content
      *
      * @param int offset how many to offset before pulling
      *
+     * @param int shuffle randomize the items when returned.
+     *
      * @return array
      *
      * @todo refactor method to use new renderObjectContent instead of deprecated renderContent.
      * @todo refactor to use specific parameters instead of config array.
      *
      */
-    public function getContentWithRelated ($contentName, $typeName = '', $take = null, $offset = null)
+    public function getContentWithRelated ($contentName, $typeName = '', $take = 0, $offset = 0, $shuffle = 0)
 
     {
 
@@ -756,7 +826,7 @@ class Content
 
 
 
-            $tag->getContentWithVersion($typeName, $take, $offset, $contentName);
+            $tag->getContentWithVersion($typeName, $take, $offset, $shuffle, $contentName);
 
 
         }

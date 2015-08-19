@@ -26,6 +26,8 @@ class Tag extends Model
 
     public $take;
 
+    public $shuffle;
+
 
     /**
      * get the taxonomy entity associated with a tag.
@@ -58,7 +60,7 @@ class Tag extends Model
 
         if (!empty($this->typeName)) {
 
-            $contents->where('type_name', $this->typeName);
+            $contents = $contents->where('type_name', $this->typeName);
 
         }
 
@@ -67,28 +69,34 @@ class Tag extends Model
 
         if (!empty($this->currentContentName)) {
 
-            $contents->where('name', '!=', $this->currentContentName);
+            $contents = $contents->where('name', '!=', $this->currentContentName);
 
         }
-
-        $contents->orderBy('published_date', 'DESC');
-
 
 
         if (!empty($this->take)) {
 
-            $contents->take($this->take);
+            $contents = $contents->take($this->take);
 
 
 
             if (!empty($this->offset)) {
 
-                $contents->offset($this->offset);
+                $contents = $contents->offset($this->offset);
 
             }
 
         }
 
+        $contents = $contents->get();
+
+        if ($this->shuffle) {
+
+
+            $contents = $contents->shuffle();
+
+
+        }
 
 
         return $contents;
@@ -101,7 +109,7 @@ class Tag extends Model
 
 
 
-    public function getContentWithVersion($TypeName = '', $take = null, $offset = null, $excludedContent = '')
+    public function getContentWithVersion($TypeName = '', $take = null, $offset = null, $shuffle = 0, $excludedContent = '')
 
     {
 
@@ -112,6 +120,8 @@ class Tag extends Model
         $this->take = $take;
 
         $this->offset = $offset;
+
+        $this->shuffle = $shuffle;
 
         $contents = $this->getContents();
 
@@ -125,7 +135,7 @@ class Tag extends Model
         }
 
 
-        $this->attributes['contents'] = $contents;
+        $this->attributes['contents'] = $contents->toArray();
 
 
         return $this;
@@ -140,24 +150,30 @@ class Tag extends Model
 
     {
 
+
         $contentQuery = $this->belongsToMany('Greenfly\Modules\Content\Models\Content');
 
 
         if (!empty($this->typeName)) {
 
+
             $contentQuery = $contentQuery->where('type_name', $this->typeName);
+
 
         }
 
 
         if ($this->take) {
 
+
             $contentQuery = $contentQuery->take($this->take);
 
 
             if ($this->offset) {
 
+
                 $contentQuery = $contentQuery->offset($this->offset);
+
 
             }
 
@@ -165,10 +181,19 @@ class Tag extends Model
         }
 
 
-        $contentQuery->orderBy('published_date', 'DESC');
+        $contentQuery = $contentQuery->get();
+
+        if ($this->shuffle) {
 
 
-        return $contentQuery->get();
+            $contentQuery = $contentQuery->shuffle();
+
+
+        }
+        //$contentQuery->orderBy('published_date', 'DESC');
+
+
+        return $contentQuery;
 
 
     }
