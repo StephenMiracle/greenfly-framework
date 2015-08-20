@@ -701,7 +701,7 @@ class Content
                 }
 
 
-                $content = $tag->contents;
+                $tag->contents = $tag->getContents()->toArray();
 
                 $vars[static::SINGLE_TAG_KEY] = $tag->toArray();
 

@@ -27,9 +27,6 @@ class Template {
 
     {
 
-        \Twig_Autoloader::register();
-
-
 
         $loader = new \Twig_Loader_Filesystem($themeDirectory);
 
@@ -42,6 +39,7 @@ class Template {
         ));
 
         $this->twig->addExtension(new \Twig_Extension_Debug());
+
 
     }
 

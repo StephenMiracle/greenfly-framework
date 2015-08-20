@@ -7,7 +7,7 @@ namespace Greenfly\Modules\Content\Models;
 
 
 use Greenfly\Modules\Model;
-
+use Illuminate\Database\Eloquent\Collection;
 
 
 class Tag extends Model
@@ -76,19 +76,31 @@ class Tag extends Model
 
         if (!empty($this->take)) {
 
-            $contents = $contents->take($this->take);
 
+            $contents = $contents->take($this->take);
 
 
             if (!empty($this->offset)) {
 
+
                 $contents = $contents->offset($this->offset);
+
 
             }
 
+
         }
 
-        $contents = $contents->get();
+
+        if (!$contents instanceof Collection) {
+
+
+            $contents = $contents->get();
+
+
+        }
+
+
 
         if ($this->shuffle) {
 
@@ -180,8 +192,10 @@ class Tag extends Model
 
         }
 
+        $contentQuery = !empty($this->orderBy) ? $contentQuery->orderBy($this->orderBy) : $contentQuery->orderBy('published_date', 'desc');
 
         $contentQuery = $contentQuery->get();
+
 
         if ($this->shuffle) {
 
@@ -190,7 +204,6 @@ class Tag extends Model
 
 
         }
-        //$contentQuery->orderBy('published_date', 'DESC');
 
 
         return $contentQuery;
