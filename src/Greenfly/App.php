@@ -7,6 +7,7 @@ namespace Greenfly;
 use Phlyty\App as RouteSystem;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Debug\Debug;
+
 /**
  * Application container
  *
@@ -22,8 +23,6 @@ class App
 
 
     use Helpers;
-
-    use Database;
 
     const DATABASE_CONFIG_KEY = 'database';
 
@@ -110,7 +109,9 @@ class App
         }
 
 
-        $this->connect($config[static::SITE_CONFIG_KEY][static::DATABASE_CONFIG_KEY]);
+        $database = new Database();
+
+        $config[static::SITE_CONFIG_KEY][static::DATABASE_CONFIG_KEY] = $database->connect($config[static::SITE_CONFIG_KEY][static::DATABASE_CONFIG_KEY]);
 
         $this->template = new Template($config[static::SITE_CONFIG_KEY][static::THEME_DIRECTORY_KEY], $config[static::SITE_CONFIG_KEY][static::CACHE_DIRECTORY_KEY]);
 

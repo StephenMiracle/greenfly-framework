@@ -24,6 +24,9 @@ trait Helpers {
 
     private $viewKey = 'view';
 
+
+
+
     /**
      * connects one or more arrays to a parent array.
      *

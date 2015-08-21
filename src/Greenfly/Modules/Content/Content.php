@@ -134,6 +134,8 @@ class Content
     public $type_id;
 
 
+
+
     /**
      * @param array $config
      *
@@ -190,6 +192,8 @@ class Content
     }
 
 
+
+
     /**
      * @param string $view the view file to render.
      */
@@ -202,6 +206,8 @@ class Content
 
 
     }
+
+
 
 
     /**
@@ -218,6 +224,8 @@ class Content
     }
 
 
+
+
     /**
      * @param array $params the parameters that the method & view need in order to render.
      */
@@ -230,6 +238,8 @@ class Content
 
 
     }
+
+
 
 
     /**
@@ -275,6 +285,8 @@ class Content
 
 
     }
+
+
 
 
     /**
@@ -758,6 +770,7 @@ class Content
     {
 
 
+            dd($config);
         $class = new Static($config);
 
         $take = isset ($class->params[static::TAKE_KEY]) ? $class->params[static::TAKE_KEY] : null;

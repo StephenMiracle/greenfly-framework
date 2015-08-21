@@ -10,11 +10,11 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 
 
 
-trait Database
+class Database
 
 {
 
-    public static function connect($config)
+    public function connect($config)
 
     {
 
