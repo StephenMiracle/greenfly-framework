@@ -302,11 +302,20 @@ class Content
 
         $class = new Static($config);
 
-        $take = isset ($class->params[static::TAKE_KEY]) ? $class->params[static::TAKE_KEY] : null;
+        $options = $class->setupOptions(static::PLURAL_TYPE_KEY, static::TAKE_KEY);
 
-        $typesList = isset ($class->params[static::PLURAL_TYPE_KEY]) ? $class->params[static::PLURAL_TYPE_KEY] : '';
+        $class->getTypesWithContentAndTaxonomies($options[static::PLURAL_TYPE_KEY], $options[static::TAKE_KEY]);
 
-        $types = $class->typeQueryBuilder($typesList, $take);
+        $class->renderObjectContent();
+
+
+    }
+
+
+    public function getTypesWithContentAndTaxonomies(array $typesList, $take)
+
+    {
+        $types = $this->typeQueryBuilder($typesList, $take);
 
 
         foreach ($types as $type) {
@@ -331,10 +340,7 @@ class Content
         }
 
 
-        $class->params[static::PLURAL_TYPE_KEY] = $types->toArray();
-
-        $class->renderObjectContent();
-
+        $this->params[static::PLURAL_TYPE_KEY] = $types->toArray();
 
     }
 
@@ -404,6 +410,27 @@ class Content
     }
 
 
+    public function setupOptions(array $options)
+
+    {
+
+        $optionsUpdate = [];
+
+        foreach ($options as $option) {
+
+
+            $optionsUpdate[$option] =  isset($this->params[$option]) ? $this->params[$option] : '';
+
+
+        }
+
+
+        return $optionsUpdate;
+
+
+    }
+
+
     /**
      * @param array $config
      *
@@ -416,15 +443,22 @@ class Content
 
         $class = new Static($config);
 
-        $typeName = isset($class->params[static::TYPE_NAME_KEY]) ? $class->params[static::TYPE_NAME_KEY] : '';
+        $optionsUpdate = $class->setupOptions([static::TYPE_NAME_KEY, static::TAKE_KEY, static::OFFSET_KEY, static::SHUFFLE_KEY ]);
 
-        $take = isset($class->params[static::TAKE_KEY]) ? $class->params[static::TAKE_KEY] : 0;
+        $class->getContentArchive([$optionsUpdate[static::TYPE_NAME_KEY]], $optionsUpdate[static::TAKE_KEY], $optionsUpdate[static::OFFSET_KEY], $optionsUpdate[static::SHUFFLE_KEY]);
 
-        $offset = isset($class->params[static::OFFSET_KEY]) ? $class->params[static::OFFSET_KEY] : 0;
+        $class->renderObjectContent();
 
-        $shuffle = isset($class->params[static::SHUFFLE_KEY]) ? $class->params[static::SHUFFLE_KEY] : 0;
 
-        $contentQuery = $class->contentQueryBuilder($typeName, $take, $offset, $shuffle);
+    }
+
+
+
+    public function getContentArchive(array $types, $take, $offset, $shuffle)
+
+    {
+
+        $contentQuery = $this->contentQueryBuilder($types, $take, $offset, $shuffle);
 
 
         foreach ($contentQuery as $content) {
@@ -448,9 +482,8 @@ class Content
 
         }
 
-        $class->params[static::CONTENTS_KEY] = $contentQuery->toArray();
 
-        $class->renderObjectContent();
+        $this->params[static::CONTENTS_KEY] = $contentQuery->toArray();
 
 
     }
