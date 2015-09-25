@@ -461,14 +461,21 @@ class Content
         $contentQuery = $this->contentQueryBuilder($types, $take, $offset, $shuffle);
 
 
-        foreach ($contentQuery as $content) {
+        foreach ($contentQuery as $key => $content) {
 
 
             try {
 
 
                 $content->tags;
-                $content->version = $content->versions()->first()->toArray();
+                $content->version = $content->versions()->first();
+
+
+                if ($content->version) {
+
+                    $content->version = $content->version->toArray();
+
+                }
 
 
             } catch (\Exception $e) {
@@ -720,6 +727,7 @@ class Content
             }
 
 
+
             $tag->contents = $tag->getContents()->toArray();
 
 
@@ -803,7 +811,6 @@ class Content
     {
 
 
-            dd($config);
         $class = new Static($config);
 
         $take = isset ($class->params[static::TAKE_KEY]) ? $class->params[static::TAKE_KEY] : null;

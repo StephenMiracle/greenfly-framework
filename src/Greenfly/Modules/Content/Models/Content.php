@@ -113,7 +113,6 @@ class Content extends Model
     {
 
 
-
             if (!isset($fields['content_name'])) {
 
 
