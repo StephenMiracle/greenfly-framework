@@ -67,6 +67,8 @@ class App
 
     public $siteVariables;
 
+    public $config;
+
     protected $template;
 
 
@@ -98,16 +100,9 @@ class App
 
     {
 
+        $this->config = $config;
 
-
-        if (isset($config[static::SITE_CONFIG_KEY][static::ENVIRONMENT_KEY]) && $config[static::SITE_CONFIG_KEY][static::ENVIRONMENT_KEY] !== static::PRODUCTION_ENVIRONMENT) {
-
-
-            Debug::enable();
-
-
-        }
-
+        $this->debugToggle();
 
         $database = new Database();
 
@@ -118,6 +113,22 @@ class App
         $this->route = new RouteSystem();
 
         $this->siteVariables = $config[static::SITE_CONFIG_KEY][static::VARIABLES_KEY];
+
+    }
+
+
+    protected function debugToggle()
+    {
+
+
+        if (isset($this->config[static::SITE_CONFIG_KEY][static::ENVIRONMENT_KEY]) && $this->config[static::SITE_CONFIG_KEY][static::ENVIRONMENT_KEY] !== static::PRODUCTION_ENVIRONMENT) {
+
+
+            Debug::enable();
+
+
+        }
+
 
     }
 
